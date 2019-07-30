@@ -1,0 +1,33 @@
+{
+    "name": "PlayerControls",
+    "maps": [
+        {
+            "name": "Gameplay",
+            "id": "aa93973a-54c3-4934-8a86-371929eb7bbd",
+            "actions": [
+                {
+                    "name": "Slide",
+                    "type": "Button",
+                    "id": "15fe777e-a74b-4ed6-a52d-5fad84cbe472",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "66dd2f0f-1e82-4230-b49d-5d5e15610bf7",
+                    "path": "<Mouse>/position/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Slide",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
