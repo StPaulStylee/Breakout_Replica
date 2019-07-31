@@ -7,18 +7,18 @@
             "actions": [
                 {
                     "name": "Slide",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "15fe777e-a74b-4ed6-a52d-5fad84cbe472",
-                    "expectedControlType": "",
-                    "processors": "",
+                    "expectedControlType": "Vector2",
+                    "processors": "ScaleVector2",
                     "interactions": ""
                 }
             ],
             "bindings": [
                 {
                     "name": "",
-                    "id": "66dd2f0f-1e82-4230-b49d-5d5e15610bf7",
-                    "path": "<Mouse>/delta/x",
+                    "id": "83eb013b-8067-4482-9d78-f32a8533b6d2",
+                    "path": "<Mouse>/delta",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

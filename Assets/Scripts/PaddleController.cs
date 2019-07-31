@@ -6,21 +6,21 @@ using UnityEngine.InputSystem;
 public class PaddleController : MonoBehaviour
 {
     private PlayerControls controls;
-    private float movement;
+    private Vector2 movement;
     private void Awake()
     {
         controls = new PlayerControls();
-        controls.Gameplay.Slide.performed += ctx => movement = ctx.ReadValue<float>() / 2;
+        controls.Gameplay.Slide.performed += ctx => movement = ctx.ReadValue<Vector2>();
         //controls.Gameplay.Slide.performed += ctx => Debug.Log("Value: " + (ctx.ReadValue<float>() / 100));
-        controls.Gameplay.Slide.canceled += ctx => movement = 0f;
+        controls.Gameplay.Slide.canceled += ctx => movement = Vector2.zero;
     }
 
     private void Update()
     {
         Debug.Log(movement);
-        float direction = movement * Time.deltaTime;
-        Vector2 position = new Vector2(direction, 0);
-        transform.Translate(position, Space.World);
+        //float direction = movement * Time.deltaTime;
+        Vector2 position = new Vector2(movement.x, 0) * Time.deltaTime;
+        transform.Translate(position);
     }
 
     private void OnEnable()
