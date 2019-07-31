@@ -30,7 +30,7 @@ public class PlayerControls : IInputActionCollection
                 {
                     ""name"": """",
                     ""id"": ""66dd2f0f-1e82-4230-b49d-5d5e15610bf7"",
-                    ""path"": ""<Mouse>/position/x"",
+                    ""path"": ""<Mouse>/delta/x"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
