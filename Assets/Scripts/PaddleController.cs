@@ -7,6 +7,8 @@ public class PaddleController : MonoBehaviour
 {
     private PlayerControls controls;
     private Vector2 movement;
+    [SerializeField]
+    private float speed = 1f;
     private void Awake()
     {
         controls = new PlayerControls();
@@ -17,10 +19,20 @@ public class PaddleController : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(movement);
+        Debug.Log("Movement: " + movement.x);
         //float direction = movement * Time.deltaTime;
-        Vector2 position = new Vector2(movement.x, 0) * Time.deltaTime;
-        transform.Translate(position);
+        //Vector2 position = new Vector2(movement.x, 0) * speed * Time.deltaTime;
+        if (movement.x < 0)
+        {
+            //Debug.Log("Left: " + Vector2.left * Time.deltaTime);
+            //transform.Translate(Vector2.left * Time.deltaTime * (-movement.x / 2), Space.World);
+            transform.Translate(new Vector2(movement.x / 100, 0));
+            return;
+        } else if (movement.x > 0) {
+            //Debug.Log("Right: " + Vector2.right * Time.deltaTime);
+            //transform.Translate(Vector2.right * Time.deltaTime * (movement.x / 2), Space.World);
+            transform.Translate(new Vector2(movement.x / 100, 0));
+        }
     }
 
     private void OnEnable()
