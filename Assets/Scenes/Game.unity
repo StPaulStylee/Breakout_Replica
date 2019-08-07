@@ -296,7 +296,7 @@ GameObject:
   - component: {fileID: 413921619}
   m_Layer: 0
   m_Name: Limit Left Lower
-  m_TagString: Untagged
+  m_TagString: Limit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -353,7 +353,7 @@ GameObject:
   - component: {fileID: 485900730}
   m_Layer: 0
   m_Name: Limit Right Upper
-  m_TagString: Untagged
+  m_TagString: Limit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -492,6 +492,7 @@ GameObject:
   - component: {fileID: 700904332}
   - component: {fileID: 700904334}
   - component: {fileID: 700904333}
+  - component: {fileID: 700904335}
   m_Layer: 0
   m_Name: Paddle
   m_TagString: Untagged
@@ -527,7 +528,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.00072851777}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -538,7 +539,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.31, y: 0.13}
+  m_Size: {x: 0.30652553, y: 0.11546978}
   m_EdgeRadius: 0
 --- !u!114 &700904334
 MonoBehaviour:
@@ -553,6 +554,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.5
+--- !u!50 &700904335
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 700904331}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 0
 --- !u!1 &799937641
 GameObject:
   m_ObjectHideFlags: 0
@@ -565,7 +587,7 @@ GameObject:
   - component: {fileID: 799937643}
   m_Layer: 0
   m_Name: Upper Limit
-  m_TagString: Untagged
+  m_TagString: Limit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -785,7 +807,7 @@ GameObject:
   - component: {fileID: 1193331356}
   m_Layer: 0
   m_Name: Limit Left Upper
-  m_TagString: Untagged
+  m_TagString: Limit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -872,7 +894,7 @@ GameObject:
   - component: {fileID: 1404464625}
   m_Layer: 0
   m_Name: Sprite
-  m_TagString: Untagged
+  m_TagString: Paddle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -951,7 +973,7 @@ GameObject:
   - component: {fileID: 1645121538}
   m_Layer: 0
   m_Name: Limit Right Lower
-  m_TagString: Untagged
+  m_TagString: Limit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1006,7 +1028,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1869594808}
   m_Layer: 0
-  m_Name: GameControl
+  m_Name: GameController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1141,6 +1163,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ball
       objectReference: {fileID: 0}
+    - target: {fileID: 6158080981930822822, guid: 4ad24200fa13341419f5b819871d0963,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6158080981930822823, guid: 4ad24200fa13341419f5b819871d0963,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1195,6 +1222,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6158080981930822821, guid: 4ad24200fa13341419f5b819871d0963,
+        type: 3}
+      propertyPath: MinYSpeed
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6158080981930822820, guid: 4ad24200fa13341419f5b819871d0963,
+        type: 3}
+      propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6158080981930822818, guid: 4ad24200fa13341419f5b819871d0963,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6158080981930822818, guid: 4ad24200fa13341419f5b819871d0963,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.05382559
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ad24200fa13341419f5b819871d0963, type: 3}

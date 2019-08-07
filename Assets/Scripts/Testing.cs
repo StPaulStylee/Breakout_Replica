@@ -2,32 +2,58 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// GameObject.FixedUpdate example.
+//
+// Measure frame rate comparing FixedUpdate against Update.
+// Show the rates every second.
+
 public class Testing : MonoBehaviour
 {
-    private Camera cam;
+    private float updateCount = 0;
+    private float fixedUpdateCount = 0;
+    private float updateUpdateCountPerSecond;
+    private float updateFixedUpdateCountPerSecond;
 
-    void Start()
+    void Awake()
     {
-        cam = Camera.main;
+        // Uncommenting this will cause framerate to drop to 10 frames per second.
+        // This will mean that FixedUpdate is called more often than Update.
+        //Application.targetFrameRate = 10;
+        StartCoroutine(Loop());
     }
 
+    // Increase the number of calls to Update.
+    void Update()
+    {
+        updateCount += 1;
+    }
+
+    // Increase the number of calls to FixedUpdate.
+    void FixedUpdate()
+    {
+        fixedUpdateCount += 1;
+    }
+
+    // Show the number of calls to both messages.
     void OnGUI()
     {
-        Vector3 point = new Vector3();
-        Event currentEvent = Event.current;
-        Vector2 mousePos = new Vector2();
+        GUIStyle fontSize = new GUIStyle(GUI.skin.GetStyle("label"));
+        fontSize.fontSize = 24;
+        GUI.Label(new Rect(100, 100, 200, 50), "Update: " + updateUpdateCountPerSecond.ToString(), fontSize);
+        GUI.Label(new Rect(100, 150, 200, 50), "FixedUpdate: " + updateFixedUpdateCountPerSecond.ToString(), fontSize);
+    }
 
-        // Get the mouse position from Event.
-        // Note that the y position from Event is inverted.
-        mousePos.x = currentEvent.mousePosition.x;
-        mousePos.y = cam.pixelHeight - currentEvent.mousePosition.y;
+    // Update both CountsPerSecond values every second.
+    IEnumerator Loop()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+            updateUpdateCountPerSecond = updateCount;
+            updateFixedUpdateCountPerSecond = fixedUpdateCount;
 
-        point = cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, cam.nearClipPlane));
-
-        GUILayout.BeginArea(new Rect(20, 20, 250, 120));
-        GUILayout.Label("Screen pixels: " + cam.pixelWidth + ":" + cam.pixelHeight);
-        GUILayout.Label("Mouse position: " + mousePos);
-        GUILayout.Label("World position: " + point.ToString("F3"));
-        GUILayout.EndArea();
+            updateCount = 0;
+            fixedUpdateCount = 0;
+        }
     }
 }
