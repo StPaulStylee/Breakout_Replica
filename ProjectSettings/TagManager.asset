@@ -4,8 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Limit
   - Paddle
+  - UpperLimit
+  - SideLimit
   layers:
   - Default
   - TransparentFX

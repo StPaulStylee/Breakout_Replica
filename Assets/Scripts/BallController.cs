@@ -29,18 +29,48 @@ public class BallController : MonoBehaviour
         {
             case "Paddle":
                 Debug.Log("Hit the Paddle!");
+                // What side of the paddle has it hit - need a reference to the paddle
+                ballRigidBody.velocity = new Vector2(ballRigidBody.velocity.x, -ballRigidBody.velocity.y);
                 break;
-            case "Limit":
-                Debug.Log("Hit the Limit!");
+            case "SideLimit":
+                Debug.Log("Hit the SideLimit!");
+                ballRigidBody.velocity = new Vector2(-ballRigidBody.velocity.x, ballRigidBody.velocity.y);
+                break;
+            case "UpperLimit":
+                Debug.Log("Hit the UpperLimit!");
+                ballRigidBody.velocity = new Vector2(ballRigidBody.velocity.x, -ballRigidBody.velocity.y);
                 break;
             default:
                 break;
         }
     }
 
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    string tag = collision.collider.tag;
+    //    switch (tag)
+    //    {
+    //        case "Paddle":
+    //            Debug.Log("Hit the Paddle!");
+    //            // What side of the paddle has it hit - need a reference to the paddle
+    //            ballRigidBody.velocity = new Vector2(ballRigidBody.velocity.x, -ballRigidBody.velocity.y);
+    //            break;
+    //        case "SideLimit":
+    //            Debug.Log("Hit the SideLimit!");
+    //            ballRigidBody.velocity = new Vector2(-ballRigidBody.velocity.x, ballRigidBody.velocity.y);
+    //            break;
+    //        case "UpperLimit":
+    //            Debug.Log("Hit the UpperLimit!");
+    //            ballRigidBody.velocity = new Vector2(ballRigidBody.velocity.x, -ballRigidBody.velocity.y);
+    //            break;
+    //        default:
+    //            break;
+    //    }
+    //}
+
     // Update is called once per frame
     void Update()
     {
-        
+        //Debug.Log(ballRigidBody.velocity);
     }
 }

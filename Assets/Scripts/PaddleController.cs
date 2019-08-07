@@ -24,7 +24,7 @@ public class PaddleController : MonoBehaviour
         startingPosition = transform.position;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         Vector3 newMousePosition = gameCamera.ScreenToWorldPoint(Input.mousePosition);
         //Debug.Log(newMousePosition);
