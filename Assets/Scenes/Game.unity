@@ -294,9 +294,10 @@ GameObject:
   m_Component:
   - component: {fileID: 413921618}
   - component: {fileID: 413921619}
+  - component: {fileID: 413921620}
   m_Layer: 0
   m_Name: Limit Left Lower
-  m_TagString: SideLimit
+  m_TagString: LeftLimit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -341,6 +342,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.02694869, y: 0.5974393}
   m_EdgeRadius: 0
+--- !u!50 &413921620
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 413921617}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 2
 --- !u!1 &485900728
 GameObject:
   m_ObjectHideFlags: 0
@@ -351,9 +373,10 @@ GameObject:
   m_Component:
   - component: {fileID: 485900729}
   - component: {fileID: 485900730}
+  - component: {fileID: 485900731}
   m_Layer: 0
   m_Name: Limit Right Upper
-  m_TagString: SideLimit
+  m_TagString: RightLimit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -398,6 +421,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.07444811, y: 5.7292137}
   m_EdgeRadius: 0
+--- !u!50 &485900731
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 485900728}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 2
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -573,8 +617,8 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 1
-  m_Constraints: 0
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &799937641
 GameObject:
   m_ObjectHideFlags: 0
@@ -585,6 +629,7 @@ GameObject:
   m_Component:
   - component: {fileID: 799937642}
   - component: {fileID: 799937643}
+  - component: {fileID: 799937644}
   m_Layer: 0
   m_Name: Upper Limit
   m_TagString: UpperLimit
@@ -632,6 +677,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4.9544344, y: 0.24088001}
   m_EdgeRadius: 0
+--- !u!50 &799937644
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 799937641}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 2
 --- !u!1 &1171393253
 GameObject:
   m_ObjectHideFlags: 0
@@ -805,9 +871,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1193331355}
   - component: {fileID: 1193331356}
+  - component: {fileID: 1193331357}
   m_Layer: 0
   m_Name: Limit Left Upper
-  m_TagString: SideLimit
+  m_TagString: LeftLimit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -852,6 +919,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.02694869, y: 5.701004}
   m_EdgeRadius: 0
+--- !u!50 &1193331357
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1193331354}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 2
 --- !u!1 &1343460123
 GameObject:
   m_ObjectHideFlags: 0
@@ -971,9 +1059,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1645121537}
   - component: {fileID: 1645121538}
+  - component: {fileID: 1645121539}
   m_Layer: 0
   m_Name: Limit Right Lower
-  m_TagString: SideLimit
+  m_TagString: RightLimit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1018,6 +1107,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.07936835, y: 0.5974393}
   m_EdgeRadius: 0
+--- !u!50 &1645121539
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645121536}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 2
 --- !u!1 &1869594807
 GameObject:
   m_ObjectHideFlags: 0
@@ -1149,7 +1259,8 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 0.20392159
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 905699405070689295, guid: e99caabbc4ec18e42a0083b392878885, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e99caabbc4ec18e42a0083b392878885, type: 3}
 --- !u!1001 &6158080982453388550
 PrefabInstance:
@@ -1226,12 +1337,12 @@ PrefabInstance:
     - target: {fileID: 6158080981930822821, guid: 4ad24200fa13341419f5b819871d0963,
         type: 3}
       propertyPath: MinYSpeed
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6158080981930822821, guid: 4ad24200fa13341419f5b819871d0963,
         type: 3}
       propertyPath: MinXSpeed
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6158080981930822820, guid: 4ad24200fa13341419f5b819871d0963,
         type: 3}
@@ -1241,7 +1352,7 @@ PrefabInstance:
     - target: {fileID: 6158080981930822820, guid: 4ad24200fa13341419f5b819871d0963,
         type: 3}
       propertyPath: m_Constraints
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6158080981930822818, guid: 4ad24200fa13341419f5b819871d0963,
         type: 3}
@@ -1256,7 +1367,7 @@ PrefabInstance:
     - target: {fileID: 6158080981930822818, guid: 4ad24200fa13341419f5b819871d0963,
         type: 3}
       propertyPath: m_IsTrigger
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6158080981930822818, guid: 4ad24200fa13341419f5b819871d0963,
         type: 3}
