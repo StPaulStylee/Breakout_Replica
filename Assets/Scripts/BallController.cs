@@ -11,6 +11,7 @@ public class BallController : MonoBehaviour
     public float CurrentBallSpeed; // This may not be necessary
 
     private Rigidbody2D ballRigidBody;
+    private Collider2D ballCollider;
 
     // Difficulty Multiplier - Is it a static product or no?
 
@@ -18,12 +19,20 @@ public class BallController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ballCollider = GetComponent<Collider2D>();
         ballRigidBody = GetComponent<Rigidbody2D>();
         ballRigidBody.velocity = new Vector2(MinXSpeed, -MinYSpeed);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        ContactPoint2D[] contacts = new ContactPoint2D[10];
+        int contactCount = ballCollider.GetContacts(contacts);
+        for (int i = 0; i < contactCount; i++)
+        {
+            Debug.Log(contacts[i]);
+            ContactPoint2D contact = contacts[i];
+        }
         string tag = collision.tag;
         switch (tag)
         {
