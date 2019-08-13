@@ -362,7 +362,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 2
+  m_Constraints: 7
 --- !u!1 &485900728
 GameObject:
   m_ObjectHideFlags: 0
@@ -441,7 +441,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 2
+  m_Constraints: 7
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -697,7 +697,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 2
+  m_Constraints: 7
 --- !u!1 &1171393253
 GameObject:
   m_ObjectHideFlags: 0
@@ -939,7 +939,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 2
+  m_Constraints: 7
 --- !u!1 &1343460123
 GameObject:
   m_ObjectHideFlags: 0
@@ -1127,7 +1127,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 2
+  m_Constraints: 7
 --- !u!1 &1869594807
 GameObject:
   m_ObjectHideFlags: 0
@@ -1342,7 +1342,17 @@ PrefabInstance:
     - target: {fileID: 6158080981930822821, guid: 4ad24200fa13341419f5b819871d0963,
         type: 3}
       propertyPath: MinXSpeed
-      value: 0.5
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6158080981930822821, guid: 4ad24200fa13341419f5b819871d0963,
+        type: 3}
+      propertyPath: MaxXSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6158080981930822821, guid: 4ad24200fa13341419f5b819871d0963,
+        type: 3}
+      propertyPath: MaxYSpeed
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6158080981930822820, guid: 4ad24200fa13341419f5b819871d0963,
         type: 3}
@@ -1373,6 +1383,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_UsedByEffector
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6158080981393567338, guid: 4ad24200fa13341419f5b819871d0963,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: 2127171743
+      objectReference: {fileID: 0}
+    - target: {fileID: 6158080981393567338, guid: 4ad24200fa13341419f5b819871d0963,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ad24200fa13341419f5b819871d0963, type: 3}

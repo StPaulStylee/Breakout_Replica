@@ -6,7 +6,8 @@ public class BallController : MonoBehaviour
     public float MaxXSpeed = 2.0f;
     public float MinYSpeed = 0.5f;
     public float MaxYSpeed = 2.0f;
-    public Vector2 CurrentVelocity { get; set; }
+
+    private Vector2 currentVelocity { get; set; }
 
     private Rigidbody2D ballRigidBody;
     private Collider2D ballCollider;
@@ -19,8 +20,8 @@ public class BallController : MonoBehaviour
     {
         ballCollider = GetComponent<Collider2D>();
         ballRigidBody = GetComponent<Rigidbody2D>();
-        CurrentVelocity = new Vector2(MinXSpeed, -MinYSpeed);
-        ballRigidBody.velocity = CurrentVelocity;
+        currentVelocity = new Vector2(MinXSpeed, -MinYSpeed);
+        ballRigidBody.velocity = currentVelocity;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -31,22 +32,26 @@ public class BallController : MonoBehaviour
             case "Paddle":
                 Debug.Log("Hit the Paddle!");
                 // What side of the paddle has it hit - need a reference to the paddle
-                ballRigidBody.velocity = new Vector2(CurrentVelocity.x, -CurrentVelocity.y);
+                ballRigidBody.velocity = new Vector2(currentVelocity.x, -currentVelocity.y);
+                currentVelocity = new Vector2(currentVelocity.x, -currentVelocity.y);
                 //Debug.Log(ballRigidBody.velocity);
                 break;
             case "RightLimit":
                 Debug.Log("Hit the SideLimit!");
-                ballRigidBody.velocity = new Vector2(-CurrentVelocity.x, -CurrentVelocity.y);
+                ballRigidBody.velocity = new Vector2(-currentVelocity.x, currentVelocity.y);
+                currentVelocity = new Vector2(-currentVelocity.x, currentVelocity.y);
                 //Debug.Log(ballRigidBody.velocity);
                 break;
             case "LeftLimit":
                 Debug.Log("Hit the SideLimit!");
-                ballRigidBody.velocity = new Vector2(CurrentVelocity.x, CurrentVelocity.y);
+                ballRigidBody.velocity = new Vector2(-currentVelocity.x, currentVelocity.y);
+                currentVelocity = new Vector2(-currentVelocity.x, currentVelocity.y);
                 //Debug.Log(ballRigidBody.velocity);
                 break;
             case "UpperLimit":
                 Debug.Log("Hit the UpperLimit!");
-                ballRigidBody.velocity = new Vector2(-CurrentVelocity.x, CurrentVelocity.y);
+                ballRigidBody.velocity = new Vector2(currentVelocity.x, -currentVelocity.y);
+                currentVelocity = new Vector2(currentVelocity.x, -currentVelocity.y);
                 //Debug.Log(ballRigidBody.velocity);
                 break;
             default:
@@ -110,6 +115,6 @@ public class BallController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        //Debug.Log(ballRigidBody.velocity);
+        Debug.Log(ballRigidBody.velocity);
     }
 }
