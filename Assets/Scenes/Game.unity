@@ -1337,22 +1337,22 @@ PrefabInstance:
     - target: {fileID: 6158080981930822821, guid: 4ad24200fa13341419f5b819871d0963,
         type: 3}
       propertyPath: MinYSpeed
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 6158080981930822821, guid: 4ad24200fa13341419f5b819871d0963,
         type: 3}
       propertyPath: MinXSpeed
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 6158080981930822821, guid: 4ad24200fa13341419f5b819871d0963,
         type: 3}
       propertyPath: MaxXSpeed
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 6158080981930822821, guid: 4ad24200fa13341419f5b819871d0963,
         type: 3}
       propertyPath: MaxYSpeed
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 6158080981930822820, guid: 4ad24200fa13341419f5b819871d0963,
         type: 3}

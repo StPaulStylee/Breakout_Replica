@@ -2,50 +2,77 @@
 
 public class BallController : MonoBehaviour
 {
-    public float MinXSpeed = 0f;
-    public float MaxXSpeed = 2.0f;
-    public float MinYSpeed = 0.5f;
-    public float MaxYSpeed = 2.0f;
+    public float MinXSpeed = 1f;
+    public float MaxXSpeed = 1f;
+    public float MinYSpeed = 1f;
+    public float MaxYSpeed = 1f;
 
-    private Vector2 currentVelocity { get; set; }
-    private Rigidbody2D ballRigidBody;
+    private Vector2 CurrentVelocity { get; set; }
+    private Rigidbody2D BallRigidBody { get; set; }
 
     // Difficulty Multiplier - Is it a static product or no?
-
 
     // Start is called before the first frame update
     void Start()
     {
-        ballRigidBody = GetComponent<Rigidbody2D>();
-        currentVelocity = new Vector2(MinXSpeed, -MinYSpeed);
-        ballRigidBody.velocity = currentVelocity;
+        BallRigidBody = GetComponent<Rigidbody2D>();
+        CurrentVelocity = new Vector2(MinXSpeed, -MinYSpeed);
+        BallRigidBody.velocity = CurrentVelocity;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Paddle") || collision.gameObject.CompareTag("UpperLimit"))
+        if (collision.gameObject.CompareTag("Paddle"))
         {
-            Debug.Log("Hit the Paddle!");
-            // What side of the paddle has it hit - need a reference to the paddle
-            ballRigidBody.velocity = new Vector2(currentVelocity.x, -currentVelocity.y);
-            currentVelocity = new Vector2(currentVelocity.x, -currentVelocity.y);
+            ContactPoint2D contactPoint = collision.GetContact(0);
+            Bounds paddleBounds = collision.collider.bounds;
+            // if ball velocity on x is negative (moving left)
+            if (BallRigidBody.velocity.x < 0)
+            {
+                // if hits left of center, maintain
+                if (contactPoint.point.x <= paddleBounds.center.x)
+                {
+                    CurrentVelocity = new Vector2(CurrentVelocity.x, -CurrentVelocity.y);
+                    BallRigidBody.velocity = CurrentVelocity;
+                    return;
+                }
+                // else inverse
+                CurrentVelocity = new Vector2(-CurrentVelocity.x, -CurrentVelocity.y);
+                BallRigidBody.velocity = CurrentVelocity;
+                return;
+            } 
+            // if ball velocity on x is positive (moving right)
+            if (BallRigidBody.velocity.x > 0)
+            {
+                // if hits right of center, maintain
+                if (contactPoint.point.x >= paddleBounds.center.x)
+                {
+                    CurrentVelocity = new Vector2(CurrentVelocity.x, -CurrentVelocity.y);
+                    BallRigidBody.velocity = CurrentVelocity;
+                    return;
+                }
+                // else, inverse
+                CurrentVelocity = new Vector2(-CurrentVelocity.x, -CurrentVelocity.y);
+                BallRigidBody.velocity = CurrentVelocity;
+                return;
+            }
+        }
+        if (collision.gameObject.CompareTag("UpperLimit"))
+        {
+            CurrentVelocity = new Vector2(CurrentVelocity.x, -CurrentVelocity.y);
+            BallRigidBody.velocity = CurrentVelocity;
             return;
-            //Debug.Log(ballRigidBody.velocity);
         }
         if (collision.gameObject.CompareTag("RightLimit"))
         {
-            Debug.Log("Hit the SideLimit!");
-            ballRigidBody.velocity = new Vector2(-currentVelocity.x, currentVelocity.y);
-            currentVelocity = new Vector2(-currentVelocity.x, currentVelocity.y);
-            //Debug.Log(ballRigidBody.velocity);
+            CurrentVelocity = new Vector2(-CurrentVelocity.x, CurrentVelocity.y);
+            BallRigidBody.velocity = CurrentVelocity;
             return;
         }
         if (collision.gameObject.CompareTag("LeftLimit"))
         {
-            Debug.Log("Hit the SideLimit!");
-            ballRigidBody.velocity = new Vector2(-currentVelocity.x, currentVelocity.y);
-            currentVelocity = new Vector2(-currentVelocity.x, currentVelocity.y);
-            //Debug.Log(ballRigidBody.velocity);
+            CurrentVelocity = new Vector2(-CurrentVelocity.x, CurrentVelocity.y);
+            BallRigidBody.velocity = CurrentVelocity;
             return;
         }
     }
