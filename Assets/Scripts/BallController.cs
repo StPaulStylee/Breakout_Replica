@@ -13,7 +13,7 @@ public class BallController : MonoBehaviour
     // Difficulty Multiplier - Is it a static product or no?
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         BallRigidBody = GetComponent<Rigidbody2D>();
         CurrentVelocity = new Vector2(MinXSpeed, -MinYSpeed);
@@ -78,7 +78,7 @@ public class BallController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         //Debug.Log(ballRigidBody.velocity);
     }
