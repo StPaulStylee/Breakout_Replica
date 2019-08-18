@@ -8,6 +8,7 @@ TagManager:
   - UpperLimit
   - LeftLimit
   - RightLimit
+  - Brick
   layers:
   - Default
   - TransparentFX

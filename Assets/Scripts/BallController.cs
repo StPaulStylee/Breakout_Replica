@@ -57,19 +57,46 @@ public class BallController : MonoBehaviour
                 return;
             }
         }
-        if (collision.gameObject.CompareTag("UpperLimit"))
+        //if (collision.gameObject.CompareTag("UpperLimit"))
+        //{
+        //    CurrentVelocity = new Vector2(CurrentVelocity.x, -CurrentVelocity.y);
+        //    BallRigidBody.velocity = CurrentVelocity;
+        //    return;
+        //}
+        //if (collision.gameObject.CompareTag("RightLimit"))
+        //{
+        //    CurrentVelocity = new Vector2(-CurrentVelocity.x, CurrentVelocity.y);
+        //    BallRigidBody.velocity = CurrentVelocity;
+        //    return;
+        //}
+        //if (collision.gameObject.CompareTag("LeftLimit"))
+        //{
+        //    CurrentVelocity = new Vector2(-CurrentVelocity.x, CurrentVelocity.y);
+        //    BallRigidBody.velocity = CurrentVelocity;
+        //    return;
+        //}
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log(CurrentVelocity);
+        if (collision.CompareTag("UpperLimit") || collision.CompareTag("Brick"))
         {
+            if (collision.CompareTag("Brick"))
+            {
+                Destroy(collision.gameObject);
+            }
             CurrentVelocity = new Vector2(CurrentVelocity.x, -CurrentVelocity.y);
             BallRigidBody.velocity = CurrentVelocity;
             return;
         }
-        if (collision.gameObject.CompareTag("RightLimit"))
+        if (collision.CompareTag("RightLimit"))
         {
             CurrentVelocity = new Vector2(-CurrentVelocity.x, CurrentVelocity.y);
             BallRigidBody.velocity = CurrentVelocity;
             return;
         }
-        if (collision.gameObject.CompareTag("LeftLimit"))
+        if (collision.CompareTag("LeftLimit"))
         {
             CurrentVelocity = new Vector2(-CurrentVelocity.x, CurrentVelocity.y);
             BallRigidBody.velocity = CurrentVelocity;
