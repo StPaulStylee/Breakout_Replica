@@ -1,112 +1,105 @@
 ﻿using UnityEngine;
 
-public class BallController : MonoBehaviour
+namespace Breakout
 {
-    public float MinXSpeed = 1f;
-    public float MaxXSpeed = 1f;
-    public float MinYSpeed = 1f;
-    public float MaxYSpeed = 1f;
-
-    private Vector2 CurrentVelocity { get; set; }
-    private Rigidbody2D BallRigidBody { get; set; }
-
-    // Difficulty Multiplier - Is it a static product or no?
-
-    // Start is called before the first frame update
-    private void Start()
+    public class BallController : MonoBehaviour
     {
-        BallRigidBody = GetComponent<Rigidbody2D>();
-        CurrentVelocity = new Vector2(MinXSpeed, -MinYSpeed);
-        BallRigidBody.velocity = CurrentVelocity;
-    }
+        public float MinXSpeed = 1f;
+        public float MaxXSpeed = 1f;
+        public float MinYSpeed = 1f;
+        public float MaxYSpeed = 1f;
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Paddle"))
+        private Vector2 CurrentVelocity { get; set; }
+        private Rigidbody2D BallRigidBody { get; set; }
+
+        // Difficulty Multiplier - Is it a static product or no?
+
+        // Start is called before the first frame update
+        private void Start()
         {
-            ContactPoint2D contactPoint = collision.GetContact(0);
-            Bounds paddleBounds = collision.collider.bounds;
-            // if ball velocity on x is negative (moving left)
-            if (BallRigidBody.velocity.x < 0)
+            BallRigidBody = GetComponent<Rigidbody2D>();
+            CurrentVelocity = new Vector2(MinXSpeed, -MinYSpeed);
+            BallRigidBody.velocity = CurrentVelocity;
+        }
+
+        #region Private Methods
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (collision.gameObject.CompareTag("Paddle"))
             {
-                // if hits left of center, maintain
-                if (contactPoint.point.x <= paddleBounds.center.x)
+                ContactPoint2D contactPoint = collision.GetContact(0);
+                Bounds paddleBounds = collision.collider.bounds;
+
+                EventsController.OnPaddleCollision();
+                // if ball velocity on x is negative (moving left)
+                if (BallRigidBody.velocity.x < 0)
                 {
-                    CurrentVelocity = new Vector2(CurrentVelocity.x, -CurrentVelocity.y);
+                    // if hits left of center, maintain
+                    if (contactPoint.point.x <= paddleBounds.center.x)
+                    {
+                        CurrentVelocity = new Vector2(CurrentVelocity.x, -CurrentVelocity.y);
+                        BallRigidBody.velocity = CurrentVelocity;
+                        return;
+                    }
+                    // else inverse
+                    CurrentVelocity = new Vector2(-CurrentVelocity.x, -CurrentVelocity.y);
                     BallRigidBody.velocity = CurrentVelocity;
                     return;
                 }
-                // else inverse
-                CurrentVelocity = new Vector2(-CurrentVelocity.x, -CurrentVelocity.y);
-                BallRigidBody.velocity = CurrentVelocity;
-                return;
-            } 
-            // if ball velocity on x is positive (moving right)
-            if (BallRigidBody.velocity.x > 0)
-            {
-                // if hits right of center, maintain
-                if (contactPoint.point.x >= paddleBounds.center.x)
+                // if ball velocity on x is positive (moving right)
+                if (BallRigidBody.velocity.x > 0)
                 {
-                    CurrentVelocity = new Vector2(CurrentVelocity.x, -CurrentVelocity.y);
+                    // if hits right of center, maintain
+                    if (contactPoint.point.x >= paddleBounds.center.x)
+                    {
+                        CurrentVelocity = new Vector2(CurrentVelocity.x, -CurrentVelocity.y);
+                        BallRigidBody.velocity = CurrentVelocity;
+                        return;
+                    }
+                    // else, inverse
+                    CurrentVelocity = new Vector2(-CurrentVelocity.x, -CurrentVelocity.y);
                     BallRigidBody.velocity = CurrentVelocity;
                     return;
                 }
-                // else, inverse
-                CurrentVelocity = new Vector2(-CurrentVelocity.x, -CurrentVelocity.y);
+            }
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            Debug.Log(CurrentVelocity);
+            if (collision.CompareTag("UpperLimit"))
+            {
+                CurrentVelocity = new Vector2(CurrentVelocity.x, -CurrentVelocity.y);
                 BallRigidBody.velocity = CurrentVelocity;
                 return;
             }
-        }
-        //if (collision.gameObject.CompareTag("UpperLimit"))
-        //{
-        //    CurrentVelocity = new Vector2(CurrentVelocity.x, -CurrentVelocity.y);
-        //    BallRigidBody.velocity = CurrentVelocity;
-        //    return;
-        //}
-        //if (collision.gameObject.CompareTag("RightLimit"))
-        //{
-        //    CurrentVelocity = new Vector2(-CurrentVelocity.x, CurrentVelocity.y);
-        //    BallRigidBody.velocity = CurrentVelocity;
-        //    return;
-        //}
-        //if (collision.gameObject.CompareTag("LeftLimit"))
-        //{
-        //    CurrentVelocity = new Vector2(-CurrentVelocity.x, CurrentVelocity.y);
-        //    BallRigidBody.velocity = CurrentVelocity;
-        //    return;
-        //}
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        Debug.Log(CurrentVelocity);
-        if (collision.CompareTag("UpperLimit") || collision.CompareTag("Brick"))
-        {
             if (collision.CompareTag("Brick"))
             {
                 Destroy(collision.gameObject);
+                CurrentVelocity = new Vector2(CurrentVelocity.x, -CurrentVelocity.y);
+                BallRigidBody.velocity = CurrentVelocity;
+                EventsController.OnBrickCollision();
+                return;
             }
-            CurrentVelocity = new Vector2(CurrentVelocity.x, -CurrentVelocity.y);
-            BallRigidBody.velocity = CurrentVelocity;
-            return;
+            if (collision.CompareTag("RightLimit"))
+            {
+                CurrentVelocity = new Vector2(-CurrentVelocity.x, CurrentVelocity.y);
+                BallRigidBody.velocity = CurrentVelocity;
+                return;
+            }
+            if (collision.CompareTag("LeftLimit"))
+            {
+                CurrentVelocity = new Vector2(-CurrentVelocity.x, CurrentVelocity.y);
+                BallRigidBody.velocity = CurrentVelocity;
+                return;
+            }
         }
-        if (collision.CompareTag("RightLimit"))
-        {
-            CurrentVelocity = new Vector2(-CurrentVelocity.x, CurrentVelocity.y);
-            BallRigidBody.velocity = CurrentVelocity;
-            return;
-        }
-        if (collision.CompareTag("LeftLimit"))
-        {
-            CurrentVelocity = new Vector2(-CurrentVelocity.x, CurrentVelocity.y);
-            BallRigidBody.velocity = CurrentVelocity;
-            return;
-        }
-    }
 
-    // Update is called once per frame
-    private void FixedUpdate()
-    {
-        //Debug.Log(ballRigidBody.velocity);
+        // Update is called once per frame
+        private void FixedUpdate()
+        {
+            //Debug.Log(ballRigidBody.velocity);
+        }
     }
+    #endregion
 }
