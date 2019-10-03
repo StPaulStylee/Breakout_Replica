@@ -9,6 +9,12 @@ namespace Breakout
         public float MinYSpeed = 1f;
         public float MaxYSpeed = 1f;
 
+        [SerializeField]
+        private Vector2 startingPosition;
+
+        [SerializeField]
+        private bool isResetPosition;
+
         private Vector2 CurrentVelocity { get; set; }
         private Rigidbody2D BallRigidBody { get; set; }
 
@@ -17,6 +23,7 @@ namespace Breakout
         // Start is called before the first frame update
         private void Start()
         {
+            startingPosition = transform.position;
             BallRigidBody = GetComponent<Rigidbody2D>();
             CurrentVelocity = new Vector2(MinXSpeed, -MinYSpeed);
             BallRigidBody.velocity = CurrentVelocity;
@@ -66,7 +73,7 @@ namespace Breakout
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            Debug.Log(CurrentVelocity);
+            //Debug.Log(CurrentVelocity);
             if (collision.CompareTag("UpperLimit"))
             {
                 CurrentVelocity = new Vector2(CurrentVelocity.x, -CurrentVelocity.y);
@@ -96,9 +103,14 @@ namespace Breakout
         }
 
         // Update is called once per frame
-        private void FixedUpdate()
+        private void Update()
         {
             //Debug.Log(ballRigidBody.velocity);
+            if (isResetPosition)
+            {
+                transform.position = startingPosition;
+            }
+            isResetPosition = false;
         }
     }
     #endregion
