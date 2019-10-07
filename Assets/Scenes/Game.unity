@@ -4112,7 +4112,7 @@ Transform:
   m_GameObject: {fileID: 700904331}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -2.884, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 16.98, y: 1, z: 1}
   m_Children:
   - {fileID: 1404464624}
   m_Father: {fileID: 1869594808}
@@ -4157,6 +4157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.5
+  isFrozen: 1
 --- !u!50 &700904335
 Rigidbody2D:
   serializedVersion: 4
@@ -6351,7 +6352,7 @@ PrefabInstance:
     - target: {fileID: 905699405070689295, guid: e99caabbc4ec18e42a0083b392878885,
         type: 3}
       propertyPath: m_IsTrigger
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e99caabbc4ec18e42a0083b392878885, type: 3}
@@ -11847,7 +11848,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5725aa8125de3834982a04ca2600acb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isResetPosition: 0
 --- !u!1001 &1879840473
 PrefabInstance:
   m_ObjectHideFlags: 0

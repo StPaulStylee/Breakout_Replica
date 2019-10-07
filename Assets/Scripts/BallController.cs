@@ -73,7 +73,6 @@ namespace Breakout
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            //Debug.Log(CurrentVelocity);
             if (collision.CompareTag("UpperLimit"))
             {
                 CurrentVelocity = new Vector2(CurrentVelocity.x, -CurrentVelocity.y);
@@ -85,7 +84,10 @@ namespace Breakout
                 Destroy(collision.gameObject);
                 CurrentVelocity = new Vector2(CurrentVelocity.x, -CurrentVelocity.y);
                 BallRigidBody.velocity = CurrentVelocity;
-                EventsController.OnBrickCollision();
+                if (CurrentVelocity.y > 0)
+                {
+                    EventsController.OnBrickCollision();
+                }
                 return;
             }
             if (collision.CompareTag("RightLimit"))
@@ -111,6 +113,7 @@ namespace Breakout
                 transform.position = startingPosition;
             }
             isResetPosition = false;
+            Debug.Log(CurrentVelocity.y);
         }
     }
     #endregion
