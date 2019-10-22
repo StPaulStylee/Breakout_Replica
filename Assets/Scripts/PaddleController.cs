@@ -15,7 +15,7 @@ namespace Breakout
         private Camera gameCamera;
         private Vector3 startingPosition;
         [SerializeField]
-        private bool isFrozen;
+        private bool isFrozen = false;
         private void Awake()
         {
             controls = new PlayerControls();
@@ -27,12 +27,17 @@ namespace Breakout
         {
             gameCamera = Camera.main;
             startingPosition = transform.position;
+            if (isFrozen)
+            {
+                transform.position = new Vector3(startingPosition.x, startingPosition.y);
+                transform.localScale += new Vector3(17f, 0);
+                return;
+            }
         }
 
         private void Update()
         {
-            if (isFrozen)
-            {
+            if (isFrozen) {
                 transform.position = new Vector3(startingPosition.x, startingPosition.y);
                 return;
             }

@@ -9,10 +9,10 @@ namespace Breakout
     {
         public delegate void OnBallEventHandler();
         public static OnBallEventHandler OnBrickCollision;
-        public static OnBallEventHandler OnPaddleCollision;
+        public static OnBallEventHandler OnEnablingCollision;
 
-        [SerializeField]
-        private BallController ball;
+        //[SerializeField]
+        //private BallController ball;
         [SerializeField]
         private GameObject[] bricks;
         // Start is called before the first frame update
@@ -20,7 +20,7 @@ namespace Breakout
         {
             bricks = GameObject.FindGameObjectsWithTag("Brick");
             OnBrickCollision += DisableBrickIsTrigger;
-            OnPaddleCollision += EnableBrickIsTrigger;
+            OnEnablingCollision += EnableBrickIsTrigger;
         }
 
         private void DisableBrickIsTrigger()
