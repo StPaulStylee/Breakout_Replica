@@ -11,7 +11,7 @@ namespace Breakout
         // This isn't even being used so refactor to use it or remove it
         private Vector2 lastMousePosition;
         [SerializeField]
-        private float speed = 1f;
+        //private float speed = 1f;
         private Camera gameCamera;
         private Vector3 startingPosition;
         [SerializeField]

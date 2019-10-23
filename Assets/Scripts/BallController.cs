@@ -10,17 +10,17 @@ namespace Breakout
         public float MaxYSpeed = 1f;
 
         [SerializeField]
-        private Vector2 startingPosition;
+        private Vector2 _startingPosition;
 
         [SerializeField]
-        private bool isResetPosition;
-
-        private Vector2 CurrentVelocity { get; set; }
-        private Rigidbody2D BallRigidBody { get; set; }
+        private bool _isResetPosition;
         [SerializeField]
-        private int PaddleCollisionCount = 0;
+        private Vector2 _currentVelocity;
+        private Rigidbody2D _ballRigidBody { get; set; }
         [SerializeField]
-        private float SpeedMultiplier = 2f;
+        private int _paddleCollisionCount = 0;
+        [SerializeField]
+        private float _speedMultiplier = 2f;
 
 
         // Difficulty Multiplier - Is it a static product or no?
@@ -28,10 +28,10 @@ namespace Breakout
         // Start is called before the first frame update
         private void Start()
         {
-            startingPosition = transform.position;
-            BallRigidBody = GetComponent<Rigidbody2D>();
-            CurrentVelocity = new Vector2(MinXSpeed, -MinYSpeed);
-            BallRigidBody.velocity = CurrentVelocity;
+            _startingPosition = transform.position;
+            _ballRigidBody = GetComponent<Rigidbody2D>();
+            _currentVelocity = new Vector2(MinXSpeed, -MinYSpeed);
+            _ballRigidBody.velocity = _currentVelocity;
         }
 
         #region Private Methods
@@ -39,65 +39,65 @@ namespace Breakout
         {
             if (collision.gameObject.CompareTag("Paddle"))
             {
-                ++PaddleCollisionCount;
+                ++_paddleCollisionCount;
                 ContactPoint2D contactPoint = collision.GetContact(0);
                 Bounds paddleBounds = collision.collider.bounds;
 
                 EventsController.OnEnablingCollision();
                 // if ball velocity on x is negative (moving left)
-                if (BallRigidBody.velocity.x < 0)
+                if (_ballRigidBody.velocity.x < 0)
                 {
                     // if hits left of center, maintain
                     if (contactPoint.point.x <= paddleBounds.center.x)
                     {   
                         // If the paddle has had 4, 8, or 12 collisions with ball, increase the speed
                         // Will need to adjust this logic to account for orange/red bricks that max the speed right away
-                        if (PaddleCollisionCount == 4 || PaddleCollisionCount == 8 || PaddleCollisionCount == 12)
+                        if (_paddleCollisionCount == 4 || _paddleCollisionCount == 8 || _paddleCollisionCount == 12)
                         {
-                            CurrentVelocity = new Vector2(CurrentVelocity.x, (-CurrentVelocity.y  * SpeedMultiplier));
-                            BallRigidBody.velocity = CurrentVelocity;
+                            _currentVelocity = new Vector2(_currentVelocity.x, (-_currentVelocity.y  * _speedMultiplier));
+                            _ballRigidBody.velocity = _currentVelocity;
                             return;
                         }
-                        CurrentVelocity = new Vector2(CurrentVelocity.x, -CurrentVelocity.y);
-                        BallRigidBody.velocity = CurrentVelocity;
+                        _currentVelocity = new Vector2(_currentVelocity.x, -_currentVelocity.y);
+                        _ballRigidBody.velocity = _currentVelocity;
                         return;
                     }
                     // else inverse
-                    if (PaddleCollisionCount == 4 || PaddleCollisionCount == 8 || PaddleCollisionCount == 12)
+                    if (_paddleCollisionCount == 4 || _paddleCollisionCount == 8 || _paddleCollisionCount == 12)
                     {
-                        CurrentVelocity = new Vector2((-CurrentVelocity.x * SpeedMultiplier), -CurrentVelocity.y);
-                        BallRigidBody.velocity = CurrentVelocity;
+                        _currentVelocity = new Vector2(-_currentVelocity.x , (-_currentVelocity.y  * _speedMultiplier));
+                        _ballRigidBody.velocity = _currentVelocity;
                         return;
                     }
-                    CurrentVelocity = new Vector2(-CurrentVelocity.x, -CurrentVelocity.y);
-                    BallRigidBody.velocity = CurrentVelocity;
+                    _currentVelocity = new Vector2(-_currentVelocity.x, -_currentVelocity.y);
+                    _ballRigidBody.velocity = _currentVelocity;
                     return;
                 }
                 // if ball velocity on x is positive (moving right)
-                if (BallRigidBody.velocity.x > 0)
+                if (_ballRigidBody.velocity.x > 0)
                 {
                     // if hits right of center, maintain
                     if (contactPoint.point.x >= paddleBounds.center.x)
                     {
-                        if (PaddleCollisionCount == 4 || PaddleCollisionCount == 8 || PaddleCollisionCount == 12)
+                        if (_paddleCollisionCount == 4 || _paddleCollisionCount == 8 || _paddleCollisionCount == 12)
                         {
-                            CurrentVelocity = new Vector2(CurrentVelocity.x, (-CurrentVelocity.y * SpeedMultiplier));
-                            BallRigidBody.velocity = CurrentVelocity;
+                            _currentVelocity = new Vector2(_currentVelocity.x, (-_currentVelocity.y * _speedMultiplier));
+                            _ballRigidBody.velocity = _currentVelocity;
                             return;
                         }
-                        CurrentVelocity = new Vector2(CurrentVelocity.x, -CurrentVelocity.y);
-                        BallRigidBody.velocity = CurrentVelocity;
+                        _currentVelocity = new Vector2(_currentVelocity.x, -_currentVelocity.y);
+                        _ballRigidBody.velocity = _currentVelocity;
                         return;
                     }
                     // else, inverse
-                    if (PaddleCollisionCount == 4 || PaddleCollisionCount == 8 || PaddleCollisionCount == 12)
+                    if (_paddleCollisionCount == 4 || _paddleCollisionCount == 8 || _paddleCollisionCount == 12)
                     {
-                        CurrentVelocity = new Vector2((-CurrentVelocity.x * SpeedMultiplier), -CurrentVelocity.y);
-                        BallRigidBody.velocity = CurrentVelocity;
+                        _currentVelocity = new Vector2(-_currentVelocity.x, (-_currentVelocity.y * _speedMultiplier));
+                        _ballRigidBody.velocity = _currentVelocity;
                         return;
                     }
-                    CurrentVelocity = new Vector2(-CurrentVelocity.x, -CurrentVelocity.y);
-                    BallRigidBody.velocity = CurrentVelocity;
+                    _currentVelocity = new Vector2(-_currentVelocity.x, -_currentVelocity.y);
+                    _ballRigidBody.velocity = _currentVelocity;
                     return;
                 }
             }
@@ -107,32 +107,29 @@ namespace Breakout
         {
             if (collision.CompareTag("UpperLimit"))
             {
-                CurrentVelocity = new Vector2(CurrentVelocity.x, -CurrentVelocity.y);
-                BallRigidBody.velocity = CurrentVelocity;
+                _currentVelocity = new Vector2(_currentVelocity.x, -_currentVelocity.y);
+                _ballRigidBody.velocity = _currentVelocity;
                 EventsController.OnEnablingCollision();
                 return;
             }
             if (collision.CompareTag("Brick"))
             {
-               
-                
-                    EventsController.OnBrickCollision();
-       
+                EventsController.OnBrickCollision();
                 Destroy(collision.gameObject);
-                CurrentVelocity = new Vector2(CurrentVelocity.x, -CurrentVelocity.y);
-                BallRigidBody.velocity = CurrentVelocity;
+                _currentVelocity = new Vector2(_currentVelocity.x, -_currentVelocity.y);
+                _ballRigidBody.velocity = _currentVelocity;
                 return;
             }
             if (collision.CompareTag("RightLimit"))
             {
-                CurrentVelocity = new Vector2(-CurrentVelocity.x, CurrentVelocity.y);
-                BallRigidBody.velocity = CurrentVelocity;
+                _currentVelocity = new Vector2(-_currentVelocity.x, _currentVelocity.y);
+                _ballRigidBody.velocity = _currentVelocity;
                 return;
             }
             if (collision.CompareTag("LeftLimit"))
             {
-                CurrentVelocity = new Vector2(-CurrentVelocity.x, CurrentVelocity.y);
-                BallRigidBody.velocity = CurrentVelocity;
+                _currentVelocity = new Vector2(-_currentVelocity.x, _currentVelocity.y);
+                _ballRigidBody.velocity = _currentVelocity;
                 return;
             }
         }
@@ -141,11 +138,11 @@ namespace Breakout
         private void Update()
         {
             //Debug.Log(ballRigidBody.velocity);
-            if (isResetPosition)
+            if (_isResetPosition)
             {
-                transform.position = startingPosition;
+                transform.position = _startingPosition;
             }
-            isResetPosition = false;
+            _isResetPosition = false;
         }
     }
     #endregion
