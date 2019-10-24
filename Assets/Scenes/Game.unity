@@ -4330,7 +4330,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCamera: {fileID: 0}
-  isFrozen: 1
+  isFrozen: 0
 --- !u!50 &700904335
 Rigidbody2D:
   serializedVersion: 4
@@ -13862,6 +13862,11 @@ PrefabInstance:
         type: 3}
       propertyPath: MaxYSpeed
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6158080981930822821, guid: 4ad24200fa13341419f5b819871d0963,
+        type: 3}
+      propertyPath: _isResetPosition
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6158080981930822820, guid: 4ad24200fa13341419f5b819871d0963,
         type: 3}

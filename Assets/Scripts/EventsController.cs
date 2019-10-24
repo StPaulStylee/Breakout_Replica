@@ -25,7 +25,7 @@ namespace Breakout
 
         private void DisableBrickIsTrigger()
         {
-            Debug.Log("Bricks Disabled");
+            //Debug.Log("Bricks Disabled");
             foreach (GameObject brick in bricks)
             {
                 if (brick != null)
@@ -38,7 +38,7 @@ namespace Breakout
 
         private void EnableBrickIsTrigger()
         {
-            Debug.Log("Bricks Enabled");
+            //Debug.Log("Bricks Enabled");
             foreach (GameObject brick in bricks)
             {
                 if (brick != null)
