@@ -11,11 +11,9 @@ namespace Breakout
         public static OnBallEventHandler OnBrickCollision;
         public static OnBallEventHandler OnEnablingCollision;
 
-        //[SerializeField]
-        //private BallController ball;
         [SerializeField]
         private GameObject[] bricks;
-        // Start is called before the first frame update
+
         void Start()
         {
             bricks = GameObject.FindGameObjectsWithTag("Brick");
@@ -25,7 +23,6 @@ namespace Breakout
 
         private void DisableBrickIsTrigger()
         {
-            //Debug.Log("Bricks Disabled");
             foreach (GameObject brick in bricks)
             {
                 if (brick != null)
@@ -38,7 +35,6 @@ namespace Breakout
 
         private void EnableBrickIsTrigger()
         {
-            //Debug.Log("Bricks Enabled");
             foreach (GameObject brick in bricks)
             {
                 if (brick != null)
