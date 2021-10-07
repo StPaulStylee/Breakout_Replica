@@ -14,6 +14,7 @@ namespace Breakout {
     private bool _isResetPosition;
     [SerializeField]
     private Vector2 _currentVelocity;
+    private Vector2 _previousVelocity;
     private Rigidbody2D _ballRigidBody { get; set; }
     [SerializeField]
     private int _paddleCollisionCount = 0;
@@ -21,104 +22,39 @@ namespace Breakout {
     private float _speedMultiplier = 2f;
     private Bounds _paddleBounds { get; set; }
 
+    #region Private Methods
     private void Start() {
       _startingPosition = transform.position;
       _ballRigidBody = GetComponent<Rigidbody2D>();
       _currentVelocity = new Vector2(MinXSpeed, -MinYSpeed);
     }
 
-    #region Private Methods
-    private void PrintCollisionSegment(float distanceFromCenter, float centerSegmentSize) {
-      if (distanceFromCenter <= centerSegmentSize && distanceFromCenter >= -centerSegmentSize) {
-        Debug.Log("Center");
-        Debug.Log(distanceFromCenter <= centerSegmentSize && distanceFromCenter >= -centerSegmentSize);
-        return;
-      }
-      if (distanceFromCenter > centerSegmentSize) {
-        Debug.Log("Right");
-        Debug.Log(distanceFromCenter > centerSegmentSize);
-        return;
-      }
-      if (distanceFromCenter < -centerSegmentSize) {
-        Debug.Log("Left");
-        Debug.Log(distanceFromCenter < -centerSegmentSize);
-        return;
-      }
-    }
-
     private void OnCollisionEnter2D(Collision2D collision) {
       if (collision.gameObject.CompareTag("Paddle")) {
-        //Debug.Log("Paddle Collision Detected!");
+        EventsController.OnEnablingCollision();
         ++_paddleCollisionCount;
         _paddleBounds = collision.collider.bounds;
         ContactPoint2D contactPoint = collision.GetContact(0);
-        var centerSegmentSize = 0.0516004f;
+        var centerSegmentSize = 0.0516004f; // TODO: Calculate this from the actual collider size
         var distanceFromCenter = contactPoint.point.x - _paddleBounds.center.x;
-        PrintCollisionSegment(distanceFromCenter, centerSegmentSize);
-        //Debug.Log(distanceFromCenter);
-        //Debug.Log(contactPoint.point.x);
-        //Debug.Log(_paddleBounds.center.x);
-        EventsController.OnEnablingCollision();
-        // if ball velocity on x is negative (moving left)
-        if (_ballRigidBody.velocity.x < 0) {
-          // if hits left of center, maintain
-          if (contactPoint.point.x <= _paddleBounds.center.x) {
-            // If the paddle has had 4 or 12 collisions with ball, increase the speed
-            // Will need to adjust this logic to account for orange/red bricks that max the speed right away
-            if (_paddleCollisionCount == 4 || _paddleCollisionCount == 12) {
-              _currentVelocity = new Vector2(_currentVelocity.x, (-_currentVelocity.y * _speedMultiplier));
-              return;
-            }
-            _currentVelocity = new Vector2(_currentVelocity.x, -_currentVelocity.y);
-            return;
-          }
-          // else inverse
-          if (_paddleCollisionCount == 4 || _paddleCollisionCount == 12) {
-            _currentVelocity = new Vector2(-_currentVelocity.x, (-_currentVelocity.y * _speedMultiplier));
-            return;
-          }
-          _currentVelocity = new Vector2(-_currentVelocity.x, -_currentVelocity.y);
-          return;
-        }
-        // if ball velocity on x is positive (moving right)
-        if (_ballRigidBody.velocity.x > 0) {
-          // if hits right of center, maintain
-          if (contactPoint.point.x >= _paddleBounds.center.x) {
-            if (_paddleCollisionCount == 4 || _paddleCollisionCount == 12) {
-              _currentVelocity = new Vector2(_currentVelocity.x, (-_currentVelocity.y * _speedMultiplier));
-              return;
-            }
-            _currentVelocity = new Vector2(_currentVelocity.x, -_currentVelocity.y);
-            return;
-          }
-          // else, inverse
-          if (_paddleCollisionCount == 4 || _paddleCollisionCount == 12) {
-            _currentVelocity = new Vector2(-_currentVelocity.x, (-_currentVelocity.y * _speedMultiplier));
-            return;
-          }
-          _currentVelocity = new Vector2(-_currentVelocity.x, -_currentVelocity.y);
-          return;
-        }
+        SetVelocityFromCollisionSegment(distanceFromCenter, centerSegmentSize);
       }
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
       if (collision.CompareTag("UpperLimit")) {
-        _currentVelocity = new Vector2(_currentVelocity.x, -_currentVelocity.y);
         EventsController.OnEnablingCollision();
+        _currentVelocity = new Vector2(_currentVelocity.x, -_currentVelocity.y);
         return;
       }
       if (collision.CompareTag("Brick")) {
         EventsController.OnBrickCollision();
-        Destroy(collision.gameObject); // Instead of destroy maybe we just inactivate it
+        //Destroy(collision.gameObject); // Instead of destroy maybe we just inactivate it
+        collision.gameObject.SetActive(false);
         _currentVelocity = new Vector2(_currentVelocity.x, -_currentVelocity.y);
         return;
       }
-      if (collision.CompareTag("RightLimit")) {
-        _currentVelocity = new Vector2(-_currentVelocity.x, _currentVelocity.y);
-        return;
-      }
-      if (collision.CompareTag("LeftLimit")) {
+      if (collision.CompareTag("RightLimit") || collision.CompareTag("LeftLimit")) {
         _currentVelocity = new Vector2(-_currentVelocity.x, _currentVelocity.y);
         return;
       }
@@ -132,6 +68,37 @@ namespace Breakout {
         _isResetPosition = false;
       }
     }
+    private void SetVelocityFromCollisionSegment(float distanceFromCenter, float centerSegmentSize) {
+      // if ball velocity on x is negative (moving left)
+      if (_ballRigidBody.velocity.x < 0) {
+        SetVelocity(distanceFromCenter, centerSegmentSize, BallDirection.Left);
+      }
+      // if ball velocity on x is positive (moving right)
+      if (_ballRigidBody.velocity.x > 0) {
+        SetVelocity(distanceFromCenter, centerSegmentSize, BallDirection.Right);
+      }
+    }
+
+    private void SetVelocity(float distanceFromCenter, float centerSegmentSize, BallDirection direction) {
+      if (distanceFromCenter <= centerSegmentSize && distanceFromCenter >= -centerSegmentSize) { // Center Collision
+        _currentVelocity = new Vector2(_currentVelocity.x, -_currentVelocity.y);
+        return;
+      }
+      if (distanceFromCenter > centerSegmentSize) { // Right Collision
+        var velocityOnX = direction == BallDirection.Left ? -_currentVelocity.x : _currentVelocity.x;
+        _currentVelocity = new Vector2(velocityOnX, -_currentVelocity.y);
+        return;
+      }
+      if (distanceFromCenter < -centerSegmentSize) { // Left Collision
+        var velocityOnX = direction == BallDirection.Left ? _currentVelocity.x : -_currentVelocity.x;
+        _currentVelocity = new Vector2(velocityOnX, -_currentVelocity.y);
+        return;
+      }
+    }
+    #endregion
   }
-  #endregion
+  enum BallDirection {
+    Right,
+    Left
+  }
 }
