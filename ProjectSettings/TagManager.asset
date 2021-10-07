@@ -4,12 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Paddle
   - UpperLimit
   - LeftLimit
   - RightLimit
   - Brick
   - BrickGroup
+  - Paddle
   layers:
   - Default
   - TransparentFX
