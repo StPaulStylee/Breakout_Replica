@@ -1,17 +1,15 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Breakout {
   [RequireComponent(typeof(Rigidbody2D))]
   public class BallController : MonoBehaviour {
-    public float MinXSpeed = 1f;
-    public float MaxXSpeed = 1f;
-    public float MinYSpeed = 1f;
-    public float MaxYSpeed = 1f;
-
     private float _previousVelocityOnX;
     private Rigidbody2D _ballRigidBody { get; set; }
     private Bounds _paddleBounds { get; set; }
     private PaddleController _paddleController;
+    private BallVelocityManager _velocityManager;
     [SerializeField]
     private Vector2 _startingPosition;
     [SerializeField]
@@ -24,11 +22,15 @@ namespace Breakout {
     private float _speedMultiplier = 2f;
 
     #region Private Methods
+    private void Awake() {
+      _velocityManager = new BallVelocityManager();  
+    }
     private void Start() {
       _startingPosition = transform.position;
       _ballRigidBody = GetComponent<Rigidbody2D>();
-      _currentVelocity = new Vector2(MinXSpeed, -MinYSpeed);
-      _previousVelocityOnX = MinXSpeed;
+      // Create methods to set the starting velocity and position??
+      _currentVelocity = _velocityManager.GetStartingVelocity();
+      _previousVelocityOnX = _currentVelocity.x;
       _paddleController = GameObject.Find("Paddle").GetComponent<PaddleController>();
       if (_paddleController == null) {
         Debug.LogError("No paddle found!");
@@ -44,6 +46,8 @@ namespace Breakout {
         var distanceFromCenter = contactPoint.point.x - _paddleBounds.center.x;
         _paddleController.SetSegmentHit(distanceFromCenter);
         SetVelocityFromCollisionSegment(_paddleController);
+        Debug.Log(_paddleCollisionCount);
+        Debug.Log(_currentVelocity);
       }
     }
 
@@ -65,6 +69,12 @@ namespace Breakout {
       }
     }
 
+    private void Update() {
+      if (Input.GetKeyDown(KeyCode.Space)) {
+        _isResetPosition = true;
+      }
+    }
+
     private void FixedUpdate() {
       _ballRigidBody.velocity = _currentVelocity;
       //Debug.Log(_ballRigidBody.velocity.y);
@@ -76,45 +86,19 @@ namespace Breakout {
     private void SetVelocityFromCollisionSegment(PaddleController paddleController) {
       // if ball velocity on x is negative (moving left)
       if (_ballRigidBody.velocity.x < 0) {
-        SetVelocity(paddleController, BallDirection.Left);
+        //SetVelocity(paddleController, BallDirection.Left);
+        _currentVelocity = _velocityManager.GetCurrentVelocity(paddleController, BallDirection.Left, _paddleCollisionCount);
       }
       // if ball velocity on x is positive (moving right)
       if (_ballRigidBody.velocity.x > 0) {
-        SetVelocity(paddleController, BallDirection.Right);
+        //SetVelocity(paddleController, BallDirection.Right);
+        _currentVelocity = _velocityManager.GetCurrentVelocity(paddleController, BallDirection.Right, _paddleCollisionCount);
       }
     }
 
-    private void SetVelocity(PaddleController paddleController, BallDirection direction) {
-      if (paddleController.CurrentSegmentHit == PaddleSegmentHit.Center) {
-        var velocityOnX = direction == BallDirection.Left ? -_previousVelocityOnX : _previousVelocityOnX;
-        _currentVelocity = new Vector2(velocityOnX, -_currentVelocity.y);
-        return;
-      }
-      if (paddleController.CurrentSegmentHit == PaddleSegmentHit.Right) {
-        if (paddleController.PreviousSegmentHit == PaddleSegmentHit.Center) {
-          var velocityOnX = direction == BallDirection.Left ? -_currentVelocity.x * 2f : _currentVelocity.x * 2f;
-          _currentVelocity = new Vector2(velocityOnX, -_currentVelocity.y);
-          return;
-        }
-        if (paddleController.PreviousSegmentHit == PaddleSegmentHit.Right || paddleController.PreviousSegmentHit == PaddleSegmentHit.Left) {
-          var velocityOnX = direction == BallDirection.Left ? -_currentVelocity.x : _currentVelocity.x;
-          _currentVelocity = new Vector2(velocityOnX, -_currentVelocity.y);
-          return;
-        }
-      }
-      if (paddleController.CurrentSegmentHit == PaddleSegmentHit.Left) {
-        if (paddleController.PreviousSegmentHit == PaddleSegmentHit.Center) {
-          var velocityOnX = direction == BallDirection.Left ? _currentVelocity.x * 2f : -_currentVelocity.x * 2f;
-          _currentVelocity = new Vector2(velocityOnX, -_currentVelocity.y);
-          return;
-        }
-        if (paddleController.PreviousSegmentHit == PaddleSegmentHit.Right || paddleController.PreviousSegmentHit == PaddleSegmentHit.Left) {
-          var velocityOnX = direction == BallDirection.Left ? _currentVelocity.x : -_currentVelocity.x;
-          _currentVelocity = new Vector2(velocityOnX, -_currentVelocity.y);
-          return;
-        }
-      }
-    }
+    //private void SetVelocity(PaddleController paddleController, BallDirection direction) {
+
+    //}
 
     // The size of the SetVelocity method is too big and could use refactoring and this is a placeholder for such
     //private float GetVelocityOnX(PaddleController paddleController) {
