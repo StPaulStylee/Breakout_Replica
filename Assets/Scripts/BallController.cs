@@ -1,4 +1,4 @@
-﻿using Assets.Scripts;
+﻿using Breakout.Data;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -40,11 +40,7 @@ namespace Breakout {
     private void OnCollisionEnter2D(Collision2D collision) {
       if (collision.gameObject.CompareTag("Paddle")) {
         EventsController.OnEnablingCollision();
-        ++_paddleCollisionCount;
-        _paddleBounds = collision.collider.bounds;
-        ContactPoint2D contactPoint = collision.GetContact(0);
-        var distanceFromCenter = contactPoint.point.x - _paddleBounds.center.x;
-        _paddleController.SetSegmentHit(distanceFromCenter);
+        _velocityManager.SetVelocityData(collision);
         SetVelocityFromCollisionSegment(_paddleController);
         Debug.Log(_paddleCollisionCount);
         Debug.Log(_currentVelocity);
@@ -54,12 +50,13 @@ namespace Breakout {
     private void OnTriggerEnter2D(Collider2D collision) {
       if (collision.CompareTag("UpperLimit")) {
         EventsController.OnEnablingCollision();
+        _velocityManager.SetVelocity(ColliderTag.UpperLimit);
         _currentVelocity = new Vector2(_currentVelocity.x, -_currentVelocity.y);
         return;
       }
       if (collision.CompareTag("Brick")) {
         EventsController.OnBrickCollision();
-        collision.gameObject.SetActive(false);
+        collision.gameObject.SetActive(false); // Have the brick disable itself on collision 
         _currentVelocity = new Vector2(_currentVelocity.x, -_currentVelocity.y);
         return;
       }
