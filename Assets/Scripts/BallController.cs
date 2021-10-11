@@ -30,17 +30,17 @@ namespace Breakout {
       _ballRigidBody = GetComponent<Rigidbody2D>();
       // Create methods to set the starting velocity and position??
       _currentVelocity = _velocityManager.GetStartingVelocity();
-      _previousVelocityOnX = _currentVelocity.x;
-      _paddleController = GameObject.Find("Paddle").GetComponent<PaddleController>();
-      if (_paddleController == null) {
-        Debug.LogError("No paddle found!");
-      }
+      //_previousVelocityOnX = _currentVelocity.x;
+      //_paddleController = GameObject.Find("Paddle").GetComponent<PaddleController>();
+      //if (_paddleController == null) {
+      //  Debug.LogError("No paddle found!");
+      //}
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
       if (collision.gameObject.CompareTag("Paddle")) {
         EventsController.OnEnablingCollision();
-        _velocityManager.SetVelocityData(collision);
+        _velocityManager.SetDataFromPaddleCollision(collision);
         SetVelocityFromCollisionSegment(_paddleController);
         Debug.Log(_paddleCollisionCount);
         Debug.Log(_currentVelocity);
@@ -107,9 +107,5 @@ namespace Breakout {
     //  }
     //}
     #endregion
-  }
-  enum BallDirection {
-    Right,
-    Left
   }
 }

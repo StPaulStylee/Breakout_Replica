@@ -14882,95 +14882,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1869594808}
     m_Modifications:
-    - target: {fileID: 6158080981393567338, guid: 4ad24200fa13341419f5b819871d0963,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6158080981393567338, guid: 4ad24200fa13341419f5b819871d0963,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: 2127171743
-      objectReference: {fileID: 0}
-    - target: {fileID: 6158080981930822818, guid: 4ad24200fa13341419f5b819871d0963,
-        type: 3}
-      propertyPath: m_Size.x
-      value: 0.088586
-      objectReference: {fileID: 0}
-    - target: {fileID: 6158080981930822818, guid: 4ad24200fa13341419f5b819871d0963,
-        type: 3}
-      propertyPath: m_Size.y
-      value: 0.05833526
-      objectReference: {fileID: 0}
-    - target: {fileID: 6158080981930822818, guid: 4ad24200fa13341419f5b819871d0963,
-        type: 3}
-      propertyPath: m_Offset.x
-      value: 0.00032223202
-      objectReference: {fileID: 0}
-    - target: {fileID: 6158080981930822818, guid: 4ad24200fa13341419f5b819871d0963,
-        type: 3}
-      propertyPath: m_Offset.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6158080981930822818, guid: 4ad24200fa13341419f5b819871d0963,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6158080981930822818, guid: 4ad24200fa13341419f5b819871d0963,
-        type: 3}
-      propertyPath: m_UsedByEffector
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6158080981930822820, guid: 4ad24200fa13341419f5b819871d0963,
-        type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6158080981930822820, guid: 4ad24200fa13341419f5b819871d0963,
-        type: 3}
-      propertyPath: m_GravityScale
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6158080981930822821, guid: 4ad24200fa13341419f5b819871d0963,
-        type: 3}
-      propertyPath: MaxXSpeed
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6158080981930822821, guid: 4ad24200fa13341419f5b819871d0963,
-        type: 3}
-      propertyPath: MaxYSpeed
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6158080981930822821, guid: 4ad24200fa13341419f5b819871d0963,
-        type: 3}
-      propertyPath: MinXSpeed
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6158080981930822821, guid: 4ad24200fa13341419f5b819871d0963,
-        type: 3}
-      propertyPath: MinYSpeed
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6158080981930822821, guid: 4ad24200fa13341419f5b819871d0963,
-        type: 3}
-      propertyPath: _isResetPosition
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6158080981930822821, guid: 4ad24200fa13341419f5b819871d0963,
-        type: 3}
-      propertyPath: _paddleCollisionCount
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6158080981930822822, guid: 4ad24200fa13341419f5b819871d0963,
         type: 3}
       propertyPath: m_Name
       value: Ball
-      objectReference: {fileID: 0}
-    - target: {fileID: 6158080981930822822, guid: 4ad24200fa13341419f5b819871d0963,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6158080981930822823, guid: 4ad24200fa13341419f5b819871d0963,
         type: 3}
@@ -15027,5 +14942,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4305116605823649381, guid: 4ad24200fa13341419f5b819871d0963, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 4ad24200fa13341419f5b819871d0963, type: 3}

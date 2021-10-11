@@ -17,7 +17,7 @@ namespace Breakout {
     private void Start() {
       gameCamera = Camera.main;
       // Try moving everyting below to Awake
-      CurrentSegmentHit = PaddleSegmentHit.None;
+      CurrentSegmentHit = PaddleSegmentHit.Center;
       startingPosition = transform.position;
       if (isFrozen) {
         transform.position = new Vector3(startingPosition.x, startingPosition.y);
@@ -51,7 +51,6 @@ namespace Breakout {
     }
   }
   public enum PaddleSegmentHit {
-    None,
     Left,
     Center,
     Right
