@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Breakout {
+  [RequireComponent(typeof(PaddleController))]
   class BallVelocityManager : MonoBehaviour {
     private Dictionary<string, Vector2> velocity = new Dictionary<string, Vector2>() {
       { "Easy", new Vector2(1f, 1f) },
@@ -24,9 +25,6 @@ namespace Breakout {
 
     private void Start() {
       paddleController = GameObject.Find("Paddle").GetComponent<PaddleController>();
-      if (paddleController == null) {
-        Debug.LogError("No paddle found!");
-      }
     }
 
     public Vector2 GetStartingVelocity() {
@@ -66,26 +64,9 @@ namespace Breakout {
     }
 
     private void SetVelocityFromPaddleCollision() {
-      //var previousHit = paddleController.PreviousSegmentHit;
-      //if (currentBallDirection == BallDirection.Left) {
-        var newVelocity = GetVelocity();
-        newVelocity = DetermineBallDirectionOnX(newVelocity);
-        currentVelocity = newVelocity;
-        //if (previousHit == PaddleSegmentHit.Center || previousHit == PaddleSegmentHit.Left) {
-        //  // get appropriate velocity and continue in current x direction
-        //}
-        //if (previousHit == PaddleSegmentHit.Right) {
-        //  // get appropriate velocity and  go back in the direction you came
-        //}
-      //}
-      //if (currentBallDirection == BallDirection.Right) {
-      //  if (previousHit == PaddleSegmentHit.Center || previousHit == PaddleSegmentHit.Right) {
-      //    // get appropriate velocity and continue in current x direction
-      //  }
-      //  if (previousHit == PaddleSegmentHit.Left) {
-      //    // get appropriate velocity and go back in the direction you came
-      //  }
-      //}
+      var newVelocity = GetVelocity();
+      newVelocity = DetermineBallDirectionOnX(newVelocity);
+      currentVelocity = newVelocity;
     }
 
     private void SetVelocityFromOtherCollision(string colliderTag) {
@@ -117,7 +98,7 @@ namespace Breakout {
     private Vector2 GetVelocity() {
       Debug.Log(paddleCollisionCount);
       if (paddleCollisionCount < 4) {
-         if (paddleController.CurrentSegmentHit == PaddleSegmentHit.Center) {
+        if (paddleController.CurrentSegmentHit == PaddleSegmentHit.Center) {
           return velocity["Easy"];
         }
         return velocity["EasyWide"];
@@ -136,7 +117,5 @@ namespace Breakout {
       }
       return velocity["VeryHard"];
     }
-
-
   }
 }
