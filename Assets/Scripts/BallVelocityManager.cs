@@ -53,7 +53,7 @@ namespace Breakout {
 
     public void SetVelocity(string colliderTag) {
       if (colliderTag == ColliderTag.Paddle) {
-        SetVelocityFromPaddleCollision(paddleController);
+        SetVelocityFromPaddleCollision();
       }
       if (colliderTag == ColliderTag.Brick) {
 
@@ -89,15 +89,16 @@ namespace Breakout {
       currentBallDirection = BallDirection.Right;
     }
 
-    private void SetVelocityFromPaddleCollision(PaddleController paddle) {
-      var previousHit = paddle.PreviousSegmentHit;
+    private void SetVelocityFromPaddleCollision() {
+      var previousHit = paddleController.PreviousSegmentHit;
       if (currentBallDirection == BallDirection.Left) {
-        if (previousHit == PaddleSegmentHit.Center || previousHit == PaddleSegmentHit.Left) {
-          // get appropriate velocity and continue in current x direction
-        }
-        if (previousHit == PaddleSegmentHit.Right) {
-          // get appropriate velocity and  go back in the direction you came
-        }
+        currentVelocity = GetVelocity();
+        //if (previousHit == PaddleSegmentHit.Center || previousHit == PaddleSegmentHit.Left) {
+        //  // get appropriate velocity and continue in current x direction
+        //}
+        //if (previousHit == PaddleSegmentHit.Right) {
+        //  // get appropriate velocity and  go back in the direction you came
+        //}
       }
       if (currentBallDirection == BallDirection.Right) {
         if (previousHit == PaddleSegmentHit.Center || previousHit == PaddleSegmentHit.Right) {
@@ -108,5 +109,16 @@ namespace Breakout {
         }
       }
     }
+
+    private Vector2 GetVelocity() {
+      if (paddleCollisionCount < 4) {
+         if (paddleController.CurrentSegmentHit == PaddleSegmentHit.Center) {
+          return velocity["Easy"];
+        }
+        return velocity["EasyWide"];
+      }
+    }
+
+
   }
 }

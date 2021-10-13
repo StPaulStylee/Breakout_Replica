@@ -41,6 +41,7 @@ namespace Breakout {
       if (collision.gameObject.CompareTag("Paddle")) {
         EventsController.OnEnablingCollision();
         _velocityManager.SetDataFromPaddleCollision(collision);
+        // this is where we will add new code
         SetVelocityFromCollisionSegment(_paddleController);
         Debug.Log(_paddleCollisionCount);
         Debug.Log(_currentVelocity);
