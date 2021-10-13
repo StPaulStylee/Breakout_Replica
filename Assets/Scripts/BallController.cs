@@ -17,6 +17,7 @@ namespace Breakout {
       velocityManager = GetComponent<BallVelocityManager>();
       ballRigidBody = GetComponent<Rigidbody2D>();
     }
+
     private void Start() {
       startingPosition = transform.position;
       currentVelocity = velocityManager.GetStartingVelocity();

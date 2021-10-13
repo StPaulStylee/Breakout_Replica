@@ -17,6 +17,7 @@ namespace Breakout {
     private PaddleController paddleController;
     private BallDirection currentBallDirection;
     private Vector2 currentVelocity;
+    private bool isBreakout;
 
     private void Start() {
       paddleController = GameObject.Find("Paddle").GetComponent<PaddleController>();
@@ -53,26 +54,47 @@ namespace Breakout {
       SetVelocityFromOtherCollision(colliderTag);
     }
 
+    // When the ball hits two bricks at the same time the logic in the SetVelocityFromOtherCollision
+    // method gets called twice and flips the velocity on X which causes a bug. This logic with the
+    // up/down shit below was an attempt at fixing that but I realized that when there is a "breakout"
+    // you can't depend on the ball direction alone. I am thinking I need some sort of "isBreakout" flag
+    // that can be checked or something like that
     private void SetBallDirection(Vector2 currentVelocity) {
       if (currentVelocity.x < 0) {
         currentBallDirection = BallDirection.Left;
-        return;
+      } else {
+        currentBallDirection = BallDirection.Right;
       }
-      currentBallDirection = BallDirection.Right;
     }
 
     private void SetVelocityFromPaddleCollision() {
+      isBreakout = false;
       var newVelocity = GetVelocity();
       newVelocity = DetermineBallDirectionOnX(newVelocity);
       currentVelocity = newVelocity;
     }
 
+    // if breakout is false and y velocity is negative, return
     private void SetVelocityFromOtherCollision(string colliderTag) {
-      if (colliderTag == ColliderTag.Brick || colliderTag == ColliderTag.UpperLimit) {
+      if (colliderTag == ColliderTag.Brick) {
+        // These checks are necessary to eliminate bug when two bricks are hit simultaneously
+        if (!isBreakout && currentVelocity.y < 0) {
+          return;
+        }
+        if (isBreakout && currentVelocity.y > 0) {
+          return;
+        }
         currentVelocity = new Vector2(currentVelocity.x, -currentVelocity.y);
+        SetBallDirection(currentVelocity);
+      }
+      if (colliderTag == ColliderTag.UpperLimit) {
+        isBreakout = true;
+        currentVelocity = new Vector2(currentVelocity.x, -currentVelocity.y);
+        SetBallDirection(currentVelocity);
       }
       if (colliderTag == ColliderTag.RightLimit || colliderTag == ColliderTag.LeftLimit) {
         currentVelocity = new Vector2(-currentVelocity.x, currentVelocity.y);
+        SetBallDirection(currentVelocity);
       }
     }
 
