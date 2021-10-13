@@ -1,20 +1,15 @@
-using Breakout;
 using Breakout.Data;
-using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Breakout {
-  [RequireComponent(typeof(PaddleController))]
   class BallVelocityManager : MonoBehaviour {
     private Dictionary<string, Vector2> velocity = new Dictionary<string, Vector2>() {
       { "Easy", new Vector2(1f, 1f) },
       { "EasyWide", new Vector2(1.5f, 1f) },
       { "Medium", new Vector2(1f, 2f) },
       { "MediumWide", new Vector2(2f, 2f) },
-      { "Hard", new Vector2(2.25f, 2.5f) },
+      { "Hard", new Vector2(2.25f, 2f) },
       { "VeryHard", new Vector2(2.25f, 3f) }
     };
     [SerializeField]
@@ -25,6 +20,9 @@ namespace Breakout {
 
     private void Start() {
       paddleController = GameObject.Find("Paddle").GetComponent<PaddleController>();
+      if (paddleController == null) {
+        Debug.LogError("No PaddleController in Scene!");
+      }
     }
 
     public Vector2 GetStartingVelocity() {
@@ -47,7 +45,7 @@ namespace Breakout {
       SetVelocity(colliderTag);
       return currentVelocity;
     }
-
+    #region Private Methods
     private void SetVelocity(string colliderTag) {
       if (colliderTag == ColliderTag.Paddle) {
         SetVelocityFromPaddleCollision();
@@ -96,7 +94,6 @@ namespace Breakout {
     }
 
     private Vector2 GetVelocity() {
-      Debug.Log(paddleCollisionCount);
       if (paddleCollisionCount < 4) {
         if (paddleController.CurrentSegmentHit == PaddleSegmentHit.Center) {
           return velocity["Easy"];
@@ -117,5 +114,6 @@ namespace Breakout {
       }
       return velocity["VeryHard"];
     }
+    #endregion
   }
 }

@@ -1,5 +1,4 @@
 ﻿using Breakout.Data;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Breakout {
@@ -53,7 +52,6 @@ namespace Breakout {
       }
       if (collision.CompareTag("Brick")) {
         EventsController.OnBrickCollision();
-        collision.gameObject.SetActive(false); // Have the brick disable itself on collision 
         currentVelocity = velocityManager.GetVelocity(ColliderTag.Brick);
         return;
       }
