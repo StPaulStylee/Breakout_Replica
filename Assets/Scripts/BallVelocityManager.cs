@@ -13,15 +13,14 @@ namespace Breakout {
       { "EasyWide", new Vector2(1.5f, 1f) },
       { "Medium", new Vector2(1f, 2f) },
       { "MediumWide", new Vector2(2f, 2f) },
-      { "Hard", new Vector2(2f, 2.5f) },
-      { "VeryHard", new Vector2(2f, 3f) }
+      { "Hard", new Vector2(2.25f, 2.5f) },
+      { "VeryHard", new Vector2(2.25f, 3f) }
     };
     [SerializeField]
     private int paddleCollisionCount = 0;
     private PaddleController paddleController;
     private BallDirection currentBallDirection;
     private Vector2 currentVelocity;
-    private float previousVelocityOnX;
 
     private void Start() {
       paddleController = GameObject.Find("Paddle").GetComponent<PaddleController>();
@@ -38,11 +37,6 @@ namespace Breakout {
       return startingVelocity;
     }
 
-    public Vector2 GetCurrentVelocity(PaddleController paddleController, BallDirection direction, int paddleCollisionCount) {
-      //return SetCurrentVelocity(paddleController, direction, paddleCollisionCount);
-      return Vector2.down;
-    }
-
     public void SetDataFromPaddleCollision(Collision2D collision) {
       ++paddleCollisionCount;
       var paddleBounds = collision.collider.bounds;
@@ -51,36 +45,18 @@ namespace Breakout {
       paddleController.SetSegmentHit(distanceFromCenter);
     }
 
-    public void SetVelocity(string colliderTag) {
+    public Vector2 GetVelocity(string colliderTag) {
+      SetVelocity(colliderTag);
+      return currentVelocity;
+    }
+
+    private void SetVelocity(string colliderTag) {
       if (colliderTag == ColliderTag.Paddle) {
         SetVelocityFromPaddleCollision();
       }
-      if (colliderTag == ColliderTag.Brick) {
-
-      }
-      if (colliderTag == ColliderTag.UpperLimit) {
-
-      }
-      if (colliderTag == ColliderTag.RightLimit ||colliderTag == ColliderTag.LeftLimit) {
-
-      }
+      SetVelocityFromOtherCollision(colliderTag);
     }
 
-    public void OnCollision() {
-      throw new NotImplementedException();
-    }
-
-    public void OnTrigger() {
-      throw new NotImplementedException();
-    }
-
-    //public Vector2 SetCurrentVelocity(PaddleController paddleController, BallDirection direction, int paddleCollisionCount) {
-
-    //}
-
-    public void SetPreviousVelocity() {
-      throw new NotImplementedException();
-    }
     private void SetBallDirection(Vector2 currentVelocity) {
       if (currentVelocity.x < 0) {
         currentBallDirection = BallDirection.Left;
@@ -90,33 +66,75 @@ namespace Breakout {
     }
 
     private void SetVelocityFromPaddleCollision() {
-      var previousHit = paddleController.PreviousSegmentHit;
-      if (currentBallDirection == BallDirection.Left) {
-        currentVelocity = GetVelocity();
+      //var previousHit = paddleController.PreviousSegmentHit;
+      //if (currentBallDirection == BallDirection.Left) {
+        var newVelocity = GetVelocity();
+        newVelocity = DetermineBallDirectionOnX(newVelocity);
+        currentVelocity = newVelocity;
         //if (previousHit == PaddleSegmentHit.Center || previousHit == PaddleSegmentHit.Left) {
         //  // get appropriate velocity and continue in current x direction
         //}
         //if (previousHit == PaddleSegmentHit.Right) {
         //  // get appropriate velocity and  go back in the direction you came
         //}
+      //}
+      //if (currentBallDirection == BallDirection.Right) {
+      //  if (previousHit == PaddleSegmentHit.Center || previousHit == PaddleSegmentHit.Right) {
+      //    // get appropriate velocity and continue in current x direction
+      //  }
+      //  if (previousHit == PaddleSegmentHit.Left) {
+      //    // get appropriate velocity and go back in the direction you came
+      //  }
+      //}
+    }
+
+    private void SetVelocityFromOtherCollision(string colliderTag) {
+      if (colliderTag == ColliderTag.Brick || colliderTag == ColliderTag.UpperLimit) {
+        currentVelocity = new Vector2(currentVelocity.x, -currentVelocity.y);
       }
-      if (currentBallDirection == BallDirection.Right) {
-        if (previousHit == PaddleSegmentHit.Center || previousHit == PaddleSegmentHit.Right) {
-          // get appropriate velocity and continue in current x direction
-        }
-        if (previousHit == PaddleSegmentHit.Left) {
-          // get appropriate velocity and go back in the direction you came
-        }
+      if (colliderTag == ColliderTag.RightLimit || colliderTag == ColliderTag.LeftLimit) {
+        currentVelocity = new Vector2(-currentVelocity.x, currentVelocity.y);
       }
     }
 
+    private Vector2 DetermineBallDirectionOnX(Vector2 velocity) {
+      var currentHit = paddleController.CurrentSegmentHit;
+      if (currentBallDirection == BallDirection.Left) {
+        if (currentHit == PaddleSegmentHit.Left || currentHit == PaddleSegmentHit.Center) {
+          return new Vector2(-velocity.x, velocity.y);
+        }
+        SetBallDirection(velocity);
+        return velocity;
+      }
+      // if BallDirection.Right
+      if (currentHit == PaddleSegmentHit.Right || currentHit == PaddleSegmentHit.Center) {
+        return velocity;
+      }
+      SetBallDirection(new Vector2(-velocity.x, velocity.y));
+      return new Vector2(-velocity.x, velocity.y);
+    }
+
     private Vector2 GetVelocity() {
+      Debug.Log(paddleCollisionCount);
       if (paddleCollisionCount < 4) {
          if (paddleController.CurrentSegmentHit == PaddleSegmentHit.Center) {
           return velocity["Easy"];
         }
         return velocity["EasyWide"];
       }
+      if (paddleCollisionCount == 4) {
+        return velocity["Medium"];
+      }
+      if (paddleCollisionCount > 4 && paddleCollisionCount <= 7) {
+        if (paddleController.CurrentSegmentHit == PaddleSegmentHit.Center) {
+          return velocity["Medium"];
+        }
+        return velocity["MediumWide"];
+      }
+      if (paddleCollisionCount > 7 && paddleCollisionCount <= 11) {
+        return velocity["Hard"];
+      }
+      return velocity["VeryHard"];
     }
 
 
