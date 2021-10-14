@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Breakout {
-  public class EventsController : MonoBehaviour {
+  public class GameController : MonoBehaviour {
     public delegate void OnBallEventHandler();
     public static OnBallEventHandler OnBrickCollision;
     public static OnBallEventHandler OnEnablingCollision;

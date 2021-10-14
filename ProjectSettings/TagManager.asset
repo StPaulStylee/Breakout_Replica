@@ -11,16 +11,17 @@ TagManager:
   - BrickGroup
   - Paddle
   - Ball
+  - LowerLimit
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - GameLimits
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Ball
+  - Brick
+  - Paddle
   - 
   - 
   - 

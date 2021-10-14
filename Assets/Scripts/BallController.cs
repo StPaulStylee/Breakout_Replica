@@ -39,7 +39,7 @@ namespace Breakout {
 
     private void OnCollisionEnter2D(Collision2D collision) {
       if (collision.gameObject.CompareTag("Paddle")) {
-        EventsController.OnEnablingCollision();
+        GameController.OnEnablingCollision();
         velocityManager.SetDataFromPaddleCollision(collision);
         currentVelocity = velocityManager.GetVelocity(ColliderTag.Paddle);
       }
@@ -47,12 +47,12 @@ namespace Breakout {
 
     private void OnTriggerEnter2D(Collider2D collision) {
       if (collision.CompareTag("UpperLimit")) {
-        EventsController.OnEnablingCollision();
+        GameController.OnEnablingCollision();
         currentVelocity = velocityManager.GetVelocity(ColliderTag.UpperLimit);
         return;
       }
       if (collision.CompareTag("Brick")) {
-        EventsController.OnBrickCollision();
+        GameController.OnBrickCollision();
         currentVelocity = velocityManager.GetVelocity(ColliderTag.Brick);
         return;
       }
@@ -63,6 +63,9 @@ namespace Breakout {
       if (collision.CompareTag("LeftLimit")) {
         currentVelocity = velocityManager.GetVelocity(ColliderTag.LeftLimit);
         return;
+      }
+      if (collision.CompareTag("LowerLimit")) {
+
       }
     }
   }
