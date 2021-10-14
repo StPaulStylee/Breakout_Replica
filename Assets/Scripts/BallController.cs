@@ -33,6 +33,7 @@ namespace Breakout {
       ballRigidBody.velocity = currentVelocity;
       if (isResetPosition) {
         transform.position = startingPosition;
+        currentVelocity = velocityManager.GetStartingVelocity();
         isResetPosition = false;
       }
     }
@@ -64,8 +65,12 @@ namespace Breakout {
         currentVelocity = velocityManager.GetVelocity(ColliderTag.LeftLimit);
         return;
       }
-      if (collision.CompareTag("LowerLimit")) {
+    }
 
+    private void OnTriggerExit2D(Collider2D collision) {
+      if (collision.CompareTag("LowerLimit")) {
+        GameController.OnTurnEnd();
+        velocityManager.ResetPaddleCollisionCount();
       }
     }
   }

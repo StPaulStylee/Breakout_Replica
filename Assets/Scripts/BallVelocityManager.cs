@@ -46,6 +46,11 @@ namespace Breakout {
       SetVelocity(colliderTag);
       return currentVelocity;
     }
+
+    public void ResetPaddleCollisionCount() {
+      paddleCollisionCount = 0;
+    }
+
     #region Private Methods
     private void SetVelocity(string colliderTag) {
       if (colliderTag == ColliderTag.Paddle) {

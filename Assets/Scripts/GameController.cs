@@ -8,6 +8,9 @@ namespace Breakout {
     public delegate void OnBallEventHandler();
     public static OnBallEventHandler OnBrickCollision;
     public static OnBallEventHandler OnEnablingCollision;
+    public static OnBallEventHandler OnTurnEnd;
+    [field:SerializeField]
+    public int PlayerTurnsRemaining { get; private set; }
     private bool isBricksEnabled = false;
     [SerializeField]
     private GameObject[] bricks;
@@ -17,6 +20,7 @@ namespace Breakout {
       bricks = GameObject.FindGameObjectsWithTag("Brick");
       OnBrickCollision += DisableBrickIsTrigger;
       OnEnablingCollision += EnableBrickIsTrigger;
+      OnTurnEnd += UpdateTurnsRemaining;
     }
 
     private void DisableBrickIsTrigger() {
@@ -41,6 +45,11 @@ namespace Breakout {
         }
         isBricksEnabled = true;
       }
+    }
+
+    private void UpdateTurnsRemaining() {
+      --PlayerTurnsRemaining;
+      Debug.Log($"Turns Remaining: {PlayerTurnsRemaining}");
     }
   }
 }
