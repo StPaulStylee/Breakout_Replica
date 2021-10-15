@@ -6,11 +6,16 @@ using UnityEngine;
 namespace Breakout {
   public class GameController : MonoBehaviour {
     public delegate void OnBallEventHandler();
-    public static OnBallEventHandler OnBrickCollision;
+    public delegate void OnBrickEventHandler(int points);
+
+    public static OnBallEventHandler OnDisablingCollision;
     public static OnBallEventHandler OnEnablingCollision;
     public static OnBallEventHandler OnTurnEnd;
+    public static OnBrickEventHandler OnBrickCollision;
     [field:SerializeField]
     public int PlayerTurnsRemaining { get; private set; }
+    public int PlayerPoints { get; private set; } = 0;
+
     private bool isBricksEnabled = false;
     [SerializeField]
     private GameObject[] bricks;
@@ -18,9 +23,15 @@ namespace Breakout {
     void Start() {
       isBricksEnabled = true;
       bricks = GameObject.FindGameObjectsWithTag("Brick");
-      OnBrickCollision += DisableBrickIsTrigger;
+      OnDisablingCollision += DisableBrickIsTrigger;
       OnEnablingCollision += EnableBrickIsTrigger;
       OnTurnEnd += UpdateTurnsRemaining;
+      OnBrickCollision += GivePlayerPoints;
+    }
+
+    public void GivePlayerPoints(int points) {
+      PlayerPoints += points;
+      Debug.Log(PlayerPoints);
     }
 
     private void DisableBrickIsTrigger() {

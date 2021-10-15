@@ -4,12 +4,13 @@ using UnityEngine;
 
 namespace Breakout {
   public class BrickController : MonoBehaviour {
-    public int Points;
+    [SerializeField]
+    private int Points;
 
     private void OnTriggerEnter2D(Collider2D collision) {
       if (collision.CompareTag("Ball")) {
+        GameController.OnBrickCollision(Points);
         gameObject.SetActive(false);
-        Debug.Log(Points);
       }
     }
   }

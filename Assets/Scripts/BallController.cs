@@ -17,7 +17,6 @@ namespace Breakout {
     }
 
     private void Start() {
-      //startingPosition = GetStartingPosition();
       transform.position = GetStartingPosition();
       currentVelocity = velocityManager.GetStartingVelocity(transform.position.x);
     }
@@ -52,7 +51,7 @@ namespace Breakout {
         return;
       }
       if (collision.CompareTag("Brick")) {
-        GameController.OnBrickCollision();
+        GameController.OnDisablingCollision();
         currentVelocity = velocityManager.GetVelocity(ColliderTag.Brick);
         return;
       }
