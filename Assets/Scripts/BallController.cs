@@ -7,8 +7,6 @@ namespace Breakout {
     private Rigidbody2D ballRigidBody;
     private BallVelocityManager velocityManager;
     [SerializeField]
-    private Vector2 startingPosition;
-    [SerializeField]
     private Vector2 currentVelocity;
     [SerializeField]
     private bool isResetPosition;
@@ -19,8 +17,9 @@ namespace Breakout {
     }
 
     private void Start() {
-      startingPosition = transform.position;
-      currentVelocity = velocityManager.GetStartingVelocity();
+      //startingPosition = GetStartingPosition();
+      transform.position = GetStartingPosition();
+      currentVelocity = velocityManager.GetStartingVelocity(transform.position.x);
     }
 
     private void Update() {
@@ -32,8 +31,8 @@ namespace Breakout {
     private void FixedUpdate() {
       ballRigidBody.velocity = currentVelocity;
       if (isResetPosition) {
-        transform.position = startingPosition;
-        currentVelocity = velocityManager.GetStartingVelocity();
+        transform.position = GetStartingPosition();
+        currentVelocity = velocityManager.GetStartingVelocity(transform.position.x);
         isResetPosition = false;
       }
     }
@@ -72,6 +71,11 @@ namespace Breakout {
         GameController.OnTurnEnd();
         velocityManager.ResetPaddleCollisionCount();
       }
+    }
+
+    private Vector2 GetStartingPosition() {
+      var positionOnX = Random.Range(-2f, 2f);
+      return new Vector2(positionOnX, 1f);
     }
   }
 }

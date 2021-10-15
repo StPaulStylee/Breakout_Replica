@@ -26,9 +26,12 @@ namespace Breakout {
       }
     }
 
-    public Vector2 GetStartingVelocity() {
+    public Vector2 GetStartingVelocity(float startingPositionOnX) {
       var startingVelocity = velocity["Easy"];
       startingVelocity.y = -startingVelocity.y;
+      if (startingPositionOnX >= 0) {
+        startingVelocity.x = -startingVelocity.x;
+      }
       currentVelocity = startingVelocity;
       SetBallDirection(currentVelocity);
       return startingVelocity;
