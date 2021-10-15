@@ -4,6 +4,9 @@ using UnityEngine;
 namespace Breakout {
   [RequireComponent(typeof(Rigidbody2D), typeof(BallVelocityManager))]
   public class BallController : MonoBehaviour {
+    public delegate void OnGameOverHandler();
+    public static OnGameOverHandler OnGameOver;
+
     private Rigidbody2D ballRigidBody;
     private BallVelocityManager velocityManager;
     [SerializeField]
@@ -17,7 +20,8 @@ namespace Breakout {
     }
 
     private void Start() {
-      transform.position = GetStartingPosition();
+      OnGameOver += SetStartingPosition;
+      SetStartingPosition();
       currentVelocity = velocityManager.GetStartingVelocity(transform.position.x);
     }
 
@@ -30,7 +34,7 @@ namespace Breakout {
     private void FixedUpdate() {
       ballRigidBody.velocity = currentVelocity;
       if (isResetPosition) {
-        transform.position = GetStartingPosition();
+        SetStartingPosition();
         currentVelocity = velocityManager.GetStartingVelocity(transform.position.x);
         isResetPosition = false;
       }
@@ -72,9 +76,9 @@ namespace Breakout {
       }
     }
 
-    private Vector2 GetStartingPosition() {
+    private void SetStartingPosition() {
       var positionOnX = Random.Range(-2f, 2f);
-      return new Vector2(positionOnX, 1f);
+      transform.position = new Vector2(positionOnX, 1f);
     }
   }
 }

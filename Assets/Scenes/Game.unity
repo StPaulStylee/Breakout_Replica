@@ -14623,7 +14623,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 249ef6ac27746a945bbd4cd4da8a3569, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <PlayerTurnsRemaining>k__BackingField: 3
+  <PlayerTurnsRemaining>k__BackingField: 1
   bricks: []
 --- !u!1001 &1879840473
 PrefabInstance:

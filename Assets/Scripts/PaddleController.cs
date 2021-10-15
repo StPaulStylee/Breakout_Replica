@@ -6,6 +6,9 @@ using UnityEngine.InputSystem;
 namespace Breakout {
   [RequireComponent(typeof(Rigidbody2D), typeof(BoxCollider2D))]
   public class PaddleController : MonoBehaviour {
+    public delegate void OnGameOverHandler();
+    public static OnGameOverHandler OnGameOver;
+
     public PaddleSegmentHit CurrentSegmentHit { get; private set; }
     public PaddleSegmentHit PreviousSegmentHit { get; private set; }
     private Camera gameCamera;
@@ -22,18 +25,17 @@ namespace Breakout {
     private void Start() {
       gameCamera = Camera.main;
       // Try moving everyting below to Awake
+      OnGameOver += FreezePaddle;
       CurrentSegmentHit = PaddleSegmentHit.Center;
       startingPosition = transform.position;
       if (isFrozen) {
-        transform.position = new Vector3(startingPosition.x, startingPosition.y);
-        transform.localScale += new Vector3(14.71f, 0);
-        rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        FreezePaddle();
         return;
       }
     }
+
     private void Update() {
       if (isFrozen) {
-        //transform.position = new Vector3(startingPosition.x, startingPosition.y);
         return;
       }
       Vector3 newMousePosition = gameCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, startingPosition.y));
@@ -54,6 +56,13 @@ namespace Breakout {
         CurrentSegmentHit = PaddleSegmentHit.Left;
         return;
       }
+    }
+
+    private void FreezePaddle() {
+      isFrozen = true;
+      transform.position = new Vector3(startingPosition.x, startingPosition.y);
+      transform.localScale += new Vector3(14.71f, 0);
+      rb.constraints = RigidbodyConstraints2D.FreezeAll;
     }
   }
   public enum PaddleSegmentHit {

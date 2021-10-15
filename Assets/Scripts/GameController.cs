@@ -61,6 +61,10 @@ namespace Breakout {
     private void UpdateTurnsRemaining() {
       --PlayerTurnsRemaining;
       Debug.Log($"Turns Remaining: {PlayerTurnsRemaining}");
+      if (PlayerTurnsRemaining <= 0) {
+        PaddleController.OnGameOver();
+        BallController.OnGameOver();
+      }
     }
   }
 }
