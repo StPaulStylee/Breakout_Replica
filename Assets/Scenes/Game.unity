@@ -5099,7 +5099,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d905cc54a8bc25a43879c42db37faabf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isFrozen: 0
+  isFrozen: 1
 --- !u!50 &700904335
 Rigidbody2D:
   serializedVersion: 4
