@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Breakout {
   public class GameController : MonoBehaviour {
@@ -12,13 +13,21 @@ namespace Breakout {
     public static OnBallEventHandler OnEnablingCollision;
     public static OnBallEventHandler OnTurnEnd;
     public static OnBrickEventHandler OnBrickCollision;
-    [field:SerializeField]
-    public int PlayerTurnsRemaining { get; private set; }
+
+
+    [field: SerializeField]
+    public int PlayerCurrentTurn { get; private set; } = 1;
     public int PlayerPoints { get; private set; } = 0;
 
     private bool isBricksEnabled = false;
     [SerializeField]
+    private int PlayerTurnsAllowed = 3;
+    [SerializeField]
     private GameObject[] bricks;
+    [SerializeField]
+    private Text player1TurnsText;
+    [SerializeField]
+    private Text player1ScoreText;
 
     void Start() {
       isBricksEnabled = true;
@@ -27,10 +36,12 @@ namespace Breakout {
       OnEnablingCollision += EnableBrickIsTrigger;
       OnTurnEnd += UpdateTurnsRemaining;
       OnBrickCollision += GivePlayerPoints;
+      player1TurnsText.text = PlayerCurrentTurn.ToString();
     }
 
     public void GivePlayerPoints(int points) {
       PlayerPoints += points;
+      player1ScoreText.text = PlayerPoints.ToString().PadLeft(3, '0');
       Debug.Log(PlayerPoints);
     }
 
@@ -59,12 +70,13 @@ namespace Breakout {
     }
 
     private void UpdateTurnsRemaining() {
-      --PlayerTurnsRemaining;
-      Debug.Log($"Turns Remaining: {PlayerTurnsRemaining}");
-      if (PlayerTurnsRemaining <= 0) {
+      ++PlayerCurrentTurn;
+      if (PlayerCurrentTurn > PlayerTurnsAllowed) {
         PaddleController.OnGameOver();
         BallController.OnGameOver();
+        return;
       }
+      player1TurnsText.text = PlayerCurrentTurn.ToString();
     }
   }
 }
