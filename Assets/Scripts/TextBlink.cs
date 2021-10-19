@@ -9,10 +9,17 @@ public class TextBlink : MonoBehaviour
   Text text;
   [SerializeField]
   private float blinkRate;
+  private bool stopBlinking;
 
   private void Start() {
     text = GetComponent<Text>();
     StartBlinking();
+  }
+
+  private void Update() {
+    if (stopBlinking) {
+      StopBlinking();
+    }
   }
 
   IEnumerator Blink() {
@@ -31,7 +38,10 @@ public class TextBlink : MonoBehaviour
   }
 
   private void StartBlinking() {
-    StopCoroutine("Blink");
     StartCoroutine("Blink");
+  }
+
+  private void StopBlinking() {
+    StopCoroutine("Blink");
   }
 }

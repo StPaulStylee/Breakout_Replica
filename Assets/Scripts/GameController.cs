@@ -36,6 +36,7 @@ namespace Breakout {
       OnEnablingCollision += EnableBrickIsTrigger;
       OnTurnEnd += UpdateTurnsRemaining;
       OnBrickCollision += GivePlayerPoints;
+      BrickController.OnGameOver(false);
       player1TurnsText.text = PlayerCurrentTurn.ToString();
     }
 
@@ -74,6 +75,7 @@ namespace Breakout {
       if (PlayerCurrentTurn > PlayerTurnsAllowed) {
         PaddleController.OnGameOver();
         BallController.OnGameOver();
+        BrickController.OnGameOver(true);
         return;
       }
       player1TurnsText.text = PlayerCurrentTurn.ToString();
