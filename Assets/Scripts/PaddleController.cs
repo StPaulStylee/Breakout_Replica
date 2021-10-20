@@ -20,11 +20,6 @@ namespace Breakout {
 
     private void Awake() {
       rb = GetComponent<Rigidbody2D>();
-    }
-
-    private void Start() {
-      gameCamera = Camera.main;
-      // Try moving everyting below to Awake
       OnGameOver += FreezePaddle;
       CurrentSegmentHit = PaddleSegmentHit.Center;
       startingPosition = transform.position;
@@ -32,6 +27,18 @@ namespace Breakout {
         FreezePaddle();
         return;
       }
+    }
+
+    private void Start() {
+      gameCamera = Camera.main;
+      // Try moving everyting below to Awake
+      //OnGameOver += FreezePaddle;
+      //CurrentSegmentHit = PaddleSegmentHit.Center;
+      //startingPosition = transform.position;
+      //if (isFrozen) {
+      //  FreezePaddle();
+      //  return;
+      //}
     }
 
     private void Update() {

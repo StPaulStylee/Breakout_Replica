@@ -6,6 +6,8 @@ namespace Breakout {
   public class BallController : MonoBehaviour {
     public delegate void OnGameOverHandler();
     public static OnGameOverHandler OnGameOver;
+    public delegate void OnForceVelocityChangeHandler(Vector2 velocity);
+    public static OnForceVelocityChangeHandler OnForceVelocityChange;
 
     private Rigidbody2D ballRigidBody;
     private BallVelocityManager velocityManager;
@@ -21,6 +23,7 @@ namespace Breakout {
 
     private void Start() {
       OnGameOver += SetStartingPosition;
+      OnForceVelocityChange += SetCurrentVelocity;
       SetStartingPosition();
       currentVelocity = velocityManager.GetStartingVelocity(transform.position.x);
     }
@@ -72,13 +75,17 @@ namespace Breakout {
     private void OnTriggerExit2D(Collider2D collision) {
       if (collision.CompareTag("LowerLimit")) {
         GameController.OnTurnEnd();
-        velocityManager.ResetPaddleCollisionCount();
+        velocityManager.RestoreToTurnStartState();
       }
     }
 
     private void SetStartingPosition() {
       var positionOnX = Random.Range(-2f, 2f);
       transform.position = new Vector2(positionOnX, 1f);
+    }
+
+    private void SetCurrentVelocity(Vector2 velocity) {
+      currentVelocity = velocity;
     }
   }
 }

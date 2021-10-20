@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace Breakout {
@@ -43,7 +40,6 @@ namespace Breakout {
     public void GivePlayerPoints(int points) {
       PlayerPoints += points;
       player1ScoreText.text = PlayerPoints.ToString().PadLeft(3, '0');
-      Debug.Log(PlayerPoints);
     }
 
     private void DisableBrickIsTrigger() {
@@ -72,13 +68,14 @@ namespace Breakout {
 
     private void UpdateTurnsRemaining() {
       ++PlayerCurrentTurn;
+      player1TurnsText.text = PlayerCurrentTurn.ToString();
       if (PlayerCurrentTurn > PlayerTurnsAllowed) {
         PaddleController.OnGameOver();
         BallController.OnGameOver();
         BrickController.OnGameOver(true);
+        TextBlink.OnBlink(false);
         return;
       }
-      player1TurnsText.text = PlayerCurrentTurn.ToString();
     }
   }
 }

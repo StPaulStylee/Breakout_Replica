@@ -4,13 +4,16 @@ using UnityEngine;
 
 namespace Breakout {
   class BallVelocityManager : MonoBehaviour {
+    public delegate void OnMaxVelocityHandler();
+    public static OnMaxVelocityHandler OnMaxVelocity;
     private Dictionary<string, Vector2> velocity = new Dictionary<string, Vector2>() {
       { "Easy", new Vector2(1f, 1f) },
       { "EasyWide", new Vector2(1.5f, 1f) },
       { "Medium", new Vector2(1f, 2f) },
       { "MediumWide", new Vector2(2f, 2f) },
       { "Hard", new Vector2(2.25f, 2f) },
-      { "VeryHard", new Vector2(2.25f, 3f) }
+      { "VeryHard", new Vector2(2.25f, 3f) },
+      { "MaxVelocity", new Vector2(2.25f, 3.25f) }
     };
     [SerializeField]
     private int paddleCollisionCount = 0;
@@ -18,12 +21,14 @@ namespace Breakout {
     private BallDirection currentBallDirection;
     private Vector2 currentVelocity;
     private bool isBreakout;
+    private bool isMaxVelocity;
 
     private void Start() {
       paddleController = GameObject.Find("Paddle").GetComponent<PaddleController>();
       if (paddleController == null) {
         Debug.LogError("No PaddleController in Scene!");
       }
+      OnMaxVelocity += SetMaxVelocity;
     }
 
     public Vector2 GetStartingVelocity(float startingPositionOnX) {
@@ -50,8 +55,9 @@ namespace Breakout {
       return currentVelocity;
     }
 
-    public void ResetPaddleCollisionCount() {
+    public void RestoreToTurnStartState() {
       paddleCollisionCount = 0;
+      isMaxVelocity = false;
     }
 
     #region Private Methods
@@ -62,11 +68,22 @@ namespace Breakout {
       SetVelocityFromOtherCollision(colliderTag);
     }
 
-    // When the ball hits two bricks at the same time the logic in the SetVelocityFromOtherCollision
-    // method gets called twice and flips the velocity on X which causes a bug. This logic with the
-    // up/down shit below was an attempt at fixing that but I realized that when there is a "breakout"
-    // you can't depend on the ball direction alone. I am thinking I need some sort of "isBreakout" flag
-    // that can be checked or something like that
+    // I believe I have the logic done for max velocity here - this is not true. I still
+    // need to set up the scenario where it hits a red/orange brick after a breakout was initiated
+    // All that is left is to set up the brick to call the event when the collision is red/orange
+    private void SetMaxVelocity() {
+      isMaxVelocity = true;
+      var newVelocity = velocity["MaxVelocity"];
+      if (currentBallDirection == BallDirection.Left) {
+        newVelocity.x = -newVelocity.x;
+      }
+      if (currentVelocity.y < 0) {
+        newVelocity.y = -newVelocity.y;
+      }
+      currentVelocity = new Vector2(newVelocity.x, newVelocity.y);
+      BallController.OnForceVelocityChange(currentVelocity);
+    }
+
     private void SetBallDirection(Vector2 currentVelocity) {
       if (currentVelocity.x < 0) {
         currentBallDirection = BallDirection.Left;
@@ -124,6 +141,9 @@ namespace Breakout {
     }
 
     private Vector2 GetVelocity() {
+      if (isMaxVelocity) {
+        return velocity["MaxVelocity"];
+      }
       if (paddleCollisionCount < 4) {
         if (paddleController.CurrentSegmentHit == PaddleSegmentHit.Center) {
           return velocity["Easy"];

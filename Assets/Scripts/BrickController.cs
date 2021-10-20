@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Breakout {
   public class BrickController : MonoBehaviour {
@@ -9,9 +7,11 @@ namespace Breakout {
     [SerializeField]
     private int Points;
     private bool isGameOver;
+    private bool isMaxVelocityInitiator;
 
     private void Start() {
       OnGameOver += SetIsGameOver;
+      SetIsMaxVelocityInitiator();
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
@@ -21,12 +21,23 @@ namespace Breakout {
       if (collision.CompareTag("Ball")) {
         GameController.OnBrickCollision(Points);
         gameObject.SetActive(false);
+        if (isMaxVelocityInitiator) {
+          BallVelocityManager.OnMaxVelocity();
+        }
       }
     }
 
     private void SetIsGameOver(bool gameOverValue) {
       isGameOver = gameOverValue;
     }
-  }
 
+    private void SetIsMaxVelocityInitiator() {
+      var parentName = transform.parent.name;
+      if (parentName == "OrangeBricks" || parentName == "RedBricks") {
+        isMaxVelocityInitiator = true;
+        return;
+      }
+      isMaxVelocityInitiator = false;
+    }
+  }
 }
