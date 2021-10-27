@@ -21,7 +21,7 @@ namespace Breakout {
       if (collision.CompareTag("Ball")) {
         GameController.OnBrickCollision(Points);
         gameObject.SetActive(false);
-        if (isMaxVelocityInitiator) {
+        if (isMaxVelocityInitiator) { // Put an or condition here to set max velocity if isBreakout
           BallVelocityManager.OnMaxVelocity();
         }
       }

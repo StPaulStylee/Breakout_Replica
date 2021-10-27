@@ -54,6 +54,7 @@ namespace Breakout {
     private void OnTriggerEnter2D(Collider2D collision) {
       if (collision.CompareTag("UpperLimit")) {
         GameController.OnEnablingCollision();
+        PaddleController.OnMaxVelocity();
         currentVelocity = velocityManager.GetVelocity(ColliderTag.UpperLimit);
         return;
       }
@@ -75,6 +76,7 @@ namespace Breakout {
     private void OnTriggerExit2D(Collider2D collision) {
       if (collision.CompareTag("LowerLimit")) {
         GameController.OnTurnEnd();
+        PaddleController.OnTurnEnd();
         velocityManager.RestoreToTurnStartState();
       }
     }

@@ -48,5 +48,6 @@ public class TextBlink : MonoBehaviour {
 
   public void StopBlinking() {
     StopCoroutine("Blink");
+    text.color = new Color(text.color.r, text.color.g, text.color.b, 1);
   }
 }

@@ -1630,7 +1630,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &251604749
 Transform:
   m_ObjectHideFlags: 0
@@ -2047,7 +2047,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &356732311
 Transform:
   m_ObjectHideFlags: 0
@@ -3648,7 +3648,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -15133,7 +15133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <PlayerCurrentTurn>k__BackingField: 1
-  PlayerTurnsAllowed: 3
+  PlayerTurnsAllowed: 50
   bricks: []
   player1TurnsText: {fileID: 1437593585}
   player1ScoreText: {fileID: 1599381219}
@@ -16839,6 +16839,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4305116605823649381, guid: 4ad24200fa13341419f5b819871d0963,
+        type: 3}
+      propertyPath: velocityVarianceOnMax.x
+      value: -0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4305116605823649381, guid: 4ad24200fa13341419f5b819871d0963,
+        type: 3}
+      propertyPath: velocityVarianceOnMax.y
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 6158080981393567340, guid: 4ad24200fa13341419f5b819871d0963,
         type: 3}
       propertyPath: m_Layer

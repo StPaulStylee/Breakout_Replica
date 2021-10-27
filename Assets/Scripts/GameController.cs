@@ -27,6 +27,7 @@ namespace Breakout {
     private Text player1ScoreText;
 
     void Start() {
+      Cursor.visible = false;
       isBricksEnabled = true;
       bricks = GameObject.FindGameObjectsWithTag("Brick");
       OnDisablingCollision += DisableBrickIsTrigger;

@@ -7,22 +7,31 @@ namespace Breakout {
   [RequireComponent(typeof(Rigidbody2D), typeof(BoxCollider2D))]
   public class PaddleController : MonoBehaviour {
     public delegate void OnGameOverHandler();
+    public delegate void OnTurnEndHandler();
+    public delegate void OnMaxVelocityHandler();
+
     public static OnGameOverHandler OnGameOver;
+    public static OnTurnEndHandler OnTurnEnd;
+    public static OnMaxVelocityHandler OnMaxVelocity;
 
     public PaddleSegmentHit CurrentSegmentHit { get; private set; }
     public PaddleSegmentHit PreviousSegmentHit { get; private set; }
+    private Rigidbody2D rb;
     private Camera gameCamera;
     private Vector3 startingPosition;
-    private float centerSegmentSize = 0.0516004f;
-    private Rigidbody2D rb;
+    private float centerSegmentSize;
+    private bool isBallMaxVelocityScale;
     [SerializeField]
     private bool isFrozen = false;
 
     private void Awake() {
       rb = GetComponent<Rigidbody2D>();
-      OnGameOver += FreezePaddle;
       CurrentSegmentHit = PaddleSegmentHit.Center;
       startingPosition = transform.position;
+      SetCenterSegmentSize();
+      OnGameOver += FreezePaddle;
+      OnTurnEnd += ResetState;
+      OnMaxVelocity += SetScaleToHalf;
       if (isFrozen) {
         FreezePaddle();
         return;
@@ -31,14 +40,6 @@ namespace Breakout {
 
     private void Start() {
       gameCamera = Camera.main;
-      // Try moving everyting below to Awake
-      //OnGameOver += FreezePaddle;
-      //CurrentSegmentHit = PaddleSegmentHit.Center;
-      //startingPosition = transform.position;
-      //if (isFrozen) {
-      //  FreezePaddle();
-      //  return;
-      //}
     }
 
     private void Update() {
@@ -68,8 +69,30 @@ namespace Breakout {
     private void FreezePaddle() {
       isFrozen = true;
       transform.position = new Vector3(startingPosition.x, startingPosition.y);
+      transform.localScale = Vector3.one;
       transform.localScale += new Vector3(14.71f, 0);
       rb.constraints = RigidbodyConstraints2D.FreezeAll;
+    }
+
+    private void SetScaleToHalf() {
+      if (isBallMaxVelocityScale) {
+        return;
+      }
+      transform.localScale = new Vector3(0.5f, 1f, 1f);
+      SetCenterSegmentSize();
+      isBallMaxVelocityScale = true;
+    }
+
+    private void SetCenterSegmentSize() {
+      centerSegmentSize = (GetComponent<BoxCollider2D>().size.x / 3) / 2;
+    }
+
+    private void ResetState() {
+      if (!isFrozen) {
+        transform.localScale = Vector3.one;
+      }
+      isBallMaxVelocityScale = false;
+      SetCenterSegmentSize();
     }
   }
   public enum PaddleSegmentHit {

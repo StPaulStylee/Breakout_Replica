@@ -17,6 +17,8 @@ namespace Breakout {
     };
     [SerializeField]
     private int paddleCollisionCount = 0;
+    [SerializeField]
+    Vector2 velocityVarianceOnMax;
     private PaddleController paddleController;
     private BallDirection currentBallDirection;
     private Vector2 currentVelocity;
@@ -68,9 +70,6 @@ namespace Breakout {
       SetVelocityFromOtherCollision(colliderTag);
     }
 
-    // I believe I have the logic done for max velocity here - this is not true. I still
-    // need to set up the scenario where it hits a red/orange brick after a breakout was initiated
-    // All that is left is to set up the brick to call the event when the collision is red/orange
     private void SetMaxVelocity() {
       isMaxVelocity = true;
       var newVelocity = velocity["MaxVelocity"];
@@ -142,7 +141,7 @@ namespace Breakout {
 
     private Vector2 GetVelocity() {
       if (isMaxVelocity) {
-        return velocity["MaxVelocity"];
+        return GetMaxVelocity();
       }
       if (paddleCollisionCount < 4) {
         if (paddleController.CurrentSegmentHit == PaddleSegmentHit.Center) {
@@ -163,6 +162,11 @@ namespace Breakout {
         return velocity["Hard"];
       }
       return velocity["VeryHard"];
+    }
+
+    private Vector2 GetMaxVelocity() {
+      Vector2 randomVelocity = new Vector2(velocityVarianceOnMax.x, velocityVarianceOnMax.y);
+      return velocity["MaxVelocity"] + randomVelocity;
     }
     #endregion
   }
