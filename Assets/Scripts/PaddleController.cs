@@ -23,6 +23,8 @@ namespace Breakout {
     private bool isBallMaxVelocityScale;
     [SerializeField]
     private bool isFrozen = false;
+    [SerializeField]
+    private AudioSource collisionSfx;
 
     private void Awake() {
       rb = GetComponent<Rigidbody2D>();
@@ -39,6 +41,10 @@ namespace Breakout {
     }
 
     private void Start() {
+      collisionSfx = GetComponentInParent<AudioSource>();
+      if (!collisionSfx) {
+        Debug.LogError($"'{gameObject.name}' does not have an audio source in it's parent");
+      }
       gameCamera = Camera.main;
     }
 
@@ -48,6 +54,11 @@ namespace Breakout {
       }
       Vector3 newMousePosition = gameCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, startingPosition.y));
       transform.position = new Vector3(newMousePosition.x, startingPosition.y);
+    }
+    private void OnCollisionEnter2D(Collision2D collision) {
+      if (collision.gameObject.CompareTag("Ball")) {
+        collisionSfx.Play();
+      }
     }
 
     public void SetSegmentHit(float hitDistanceFromCenter) {

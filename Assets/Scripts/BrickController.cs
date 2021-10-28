@@ -6,10 +6,16 @@ namespace Breakout {
     public static OnGameOverHandler OnGameOver;
     [SerializeField]
     private int Points;
+    [SerializeField]
+    private AudioSource collisionSfx;
     private bool isGameOver;
     private bool isMaxVelocityInitiator;
 
     private void Start() {
+      collisionSfx = GetComponentInParent<AudioSource>();
+      if (!collisionSfx) {
+        Debug.LogError($"'{gameObject.name}' does not have an audio source in it's parent");
+      }
       OnGameOver += SetIsGameOver;
       SetIsMaxVelocityInitiator();
     }
@@ -19,6 +25,7 @@ namespace Breakout {
         return;
       }
       if (collision.CompareTag("Ball")) {
+        collisionSfx.Play();
         GameController.OnBrickCollision(Points);
         gameObject.SetActive(false);
         if (isMaxVelocityInitiator) { // Put an or condition here to set max velocity if isBreakout
