@@ -11,6 +11,7 @@ namespace Breakout {
 
     private Rigidbody2D ballRigidBody;
     private BallVelocityManager velocityManager;
+    private bool isNewTurn = false;
     [SerializeField]
     private Vector2 currentVelocity;
     [SerializeField]
@@ -29,7 +30,7 @@ namespace Breakout {
     }
 
     private void Update() {
-      if (Input.GetKeyDown(KeyCode.Space)) {
+      if (Input.GetKeyDown(KeyCode.Space) && isNewTurn) {
         isResetPosition = true;
       }
     }
@@ -40,6 +41,7 @@ namespace Breakout {
         SetStartingPosition();
         currentVelocity = velocityManager.GetStartingVelocity(transform.position.x);
         isResetPosition = false;
+        isNewTurn = false;
       }
     }
 
@@ -78,7 +80,13 @@ namespace Breakout {
         GameController.OnTurnEnd();
         PaddleController.OnTurnEnd();
         velocityManager.RestoreToTurnStartState();
+        isNewTurn = true;
       }
+    }
+
+    private void OnDisable() {
+      OnGameOver -= SetStartingPosition;
+      OnForceVelocityChange -= SetCurrentVelocity;
     }
 
     private void SetStartingPosition() {

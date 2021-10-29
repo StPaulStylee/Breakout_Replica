@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.InputSystem;
+﻿using UnityEngine;
 
 namespace Breakout {
   [RequireComponent(typeof(Rigidbody2D), typeof(BoxCollider2D))]
@@ -55,10 +52,21 @@ namespace Breakout {
       Vector3 newMousePosition = gameCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, startingPosition.y));
       transform.position = new Vector3(newMousePosition.x, startingPosition.y);
     }
+
+    // Disable the paddle collider on collision until the ball hits something else
     private void OnCollisionEnter2D(Collision2D collision) {
+      if (isFrozen) {
+        return;
+      }
       if (collision.gameObject.CompareTag("Ball")) {
         collisionSfx.Play();
       }
+    }
+
+    private void OnDisable() {
+      OnGameOver -= FreezePaddle;
+      OnTurnEnd -= ResetState;
+      OnMaxVelocity -= SetScaleToHalf;
     }
 
     public void SetSegmentHit(float hitDistanceFromCenter) {

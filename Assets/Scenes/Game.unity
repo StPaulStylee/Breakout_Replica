@@ -3731,7 +3731,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.022052407, y: -0.28916287}
+  m_Offset: {x: 0.07903087, y: -0.28916287}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -3742,7 +3742,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.06918645, y: 6.539243}
+  m_Size: {x: 0.271353, y: 6.539243}
   m_EdgeRadius: 0
 --- !u!50 &485900731
 Rigidbody2D:
@@ -3785,7 +3785,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 0.92573476
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -9571,7 +9571,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.045966625, y: -0.32731736}
+  m_Offset: {x: -0.11840546, y: -0.32731724}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -9582,7 +9582,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.021024227, y: 6.5591326}
+  m_Size: {x: 0.1659019, y: 6.5591326}
   m_EdgeRadius: 0
 --- !u!50 &1193331357
 Rigidbody2D:

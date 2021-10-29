@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Breakout {
@@ -25,20 +26,46 @@ namespace Breakout {
     private Text player1TurnsText;
     [SerializeField]
     private Text player1ScoreText;
+    private bool isGameOver = false;
 
-    void Start() {
-      Cursor.visible = false;
-      isBricksEnabled = true;
-      bricks = GameObject.FindGameObjectsWithTag("Brick");
+    private void Awake() {
       OnDisablingCollision += DisableBrickIsTrigger;
       OnEnablingCollision += EnableBrickIsTrigger;
       OnTurnEnd += UpdateTurnsRemaining;
       OnBrickCollision += GivePlayerPoints;
+      Cursor.visible = false;
+      isBricksEnabled = true;
+    }
+
+    void Start() {
+      bricks = GameObject.FindGameObjectsWithTag("Brick");
+      player1TurnsText = GameObject.Find("PlayerTurnCount").GetComponent<Text>();
+      player1ScoreText = GameObject.Find("Player1ScoreText").GetComponent<Text>();
+      if (player1TurnsText == null || player1ScoreText == null) {
+        Debug.LogError("Required text field(s) could not be identified.");
+      }
       BrickController.OnGameOver(false);
+      LimitController.OnGameOver(false);
       player1TurnsText.text = PlayerCurrentTurn.ToString();
     }
 
-    public void GivePlayerPoints(int points) {
+    private void Update() {
+      if (isGameOver) {
+        if(Input.GetKeyDown(KeyCode.Space)) {
+          // Restart game
+          SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+      }
+    }
+
+    private void OnDisable() {
+      OnDisablingCollision -= DisableBrickIsTrigger;
+      OnEnablingCollision -= EnableBrickIsTrigger;
+      OnTurnEnd -= UpdateTurnsRemaining;
+      OnBrickCollision -= GivePlayerPoints;
+    }
+
+    private void GivePlayerPoints(int points) {
       PlayerPoints += points;
       player1ScoreText.text = PlayerPoints.ToString().PadLeft(3, '0');
     }
@@ -71,9 +98,11 @@ namespace Breakout {
       ++PlayerCurrentTurn;
       player1TurnsText.text = PlayerCurrentTurn.ToString();
       if (PlayerCurrentTurn > PlayerTurnsAllowed) {
+        isGameOver = true;
         PaddleController.OnGameOver();
         BallController.OnGameOver();
         BrickController.OnGameOver(true);
+        LimitController.OnGameOver(true);
         TextBlink.OnBlink(false);
         return;
       }

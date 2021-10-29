@@ -33,6 +33,10 @@ namespace Breakout {
       OnMaxVelocity += SetMaxVelocity;
     }
 
+    private void OnDisable() {
+      OnMaxVelocity -= SetMaxVelocity;
+    }
+
     public Vector2 GetStartingVelocity(float startingPositionOnX) {
       var startingVelocity = velocity["Easy"];
       startingVelocity.y = -startingVelocity.y;

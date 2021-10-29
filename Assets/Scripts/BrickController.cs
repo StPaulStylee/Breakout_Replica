@@ -6,7 +6,6 @@ namespace Breakout {
     public static OnGameOverHandler OnGameOver;
     [SerializeField]
     private int Points;
-    [SerializeField]
     private AudioSource collisionSfx;
     private bool isGameOver;
     private bool isMaxVelocityInitiator;
@@ -32,6 +31,10 @@ namespace Breakout {
           BallVelocityManager.OnMaxVelocity();
         }
       }
+    }
+
+    private void OnDisable() {
+      OnGameOver -= SetIsGameOver;
     }
 
     private void SetIsGameOver(bool gameOverValue) {
