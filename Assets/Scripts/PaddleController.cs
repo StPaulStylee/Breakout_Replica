@@ -3,7 +3,7 @@
 namespace Breakout {
   [RequireComponent(typeof(Rigidbody2D), typeof(BoxCollider2D))]
   public class PaddleController : MonoBehaviour {
-    public delegate void OnGameOverHandler();
+    public delegate void OnGameOverHandler(bool value);
     public delegate void OnTurnEndHandler();
     public delegate void OnMaxVelocityHandler();
 
@@ -28,7 +28,7 @@ namespace Breakout {
       CurrentSegmentHit = PaddleSegmentHit.Center;
       startingPosition = transform.position;
       SetCenterSegmentSize();
-      OnGameOver += FreezePaddle;
+      OnGameOver += SetIsGameOver;
       OnTurnEnd += ResetState;
       OnMaxVelocity += SetScaleToHalf;
       if (isFrozen) {
@@ -64,7 +64,7 @@ namespace Breakout {
     }
 
     private void OnDisable() {
-      OnGameOver -= FreezePaddle;
+      OnGameOver -= SetIsGameOver;
       OnTurnEnd -= ResetState;
       OnMaxVelocity -= SetScaleToHalf;
     }
@@ -112,6 +112,14 @@ namespace Breakout {
       }
       isBallMaxVelocityScale = false;
       SetCenterSegmentSize();
+    }
+
+    private void SetIsGameOver(bool gameOverValue) {
+      if (gameOverValue) {
+        FreezePaddle();
+        return;
+      }
+      ResetState();
     }
   }
   public enum PaddleSegmentHit {

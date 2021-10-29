@@ -26,6 +26,7 @@ namespace Breakout {
     private Text player1TurnsText;
     [SerializeField]
     private Text player1ScoreText;
+    [SerializeField]
     private bool isGameOver = false;
 
     private void Awake() {
@@ -44,8 +45,9 @@ namespace Breakout {
       if (player1TurnsText == null || player1ScoreText == null) {
         Debug.LogError("Required text field(s) could not be identified.");
       }
-      BrickController.OnGameOver(false);
-      LimitController.OnGameOver(false);
+      BrickController.OnGameOver(isGameOver);
+      LimitController.OnGameOver(isGameOver);
+      PaddleController.OnGameOver(isGameOver);
       player1TurnsText.text = PlayerCurrentTurn.ToString();
     }
 
@@ -53,7 +55,8 @@ namespace Breakout {
       if (isGameOver) {
         if(Input.GetKeyDown(KeyCode.Space)) {
           // Restart game
-          SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+          var scene = SceneManager.GetSceneByName("Game");
+          SceneManager.LoadScene(1);
         }
       }
     }
@@ -99,10 +102,10 @@ namespace Breakout {
       player1TurnsText.text = PlayerCurrentTurn.ToString();
       if (PlayerCurrentTurn > PlayerTurnsAllowed) {
         isGameOver = true;
-        PaddleController.OnGameOver();
+        PaddleController.OnGameOver(isGameOver);
         BallController.OnGameOver();
-        BrickController.OnGameOver(true);
-        LimitController.OnGameOver(true);
+        BrickController.OnGameOver(isGameOver);
+        LimitController.OnGameOver(isGameOver);
         TextBlink.OnBlink(false);
         return;
       }

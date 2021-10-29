@@ -82,6 +82,7 @@ namespace Breakout {
         velocityManager.RestoreToTurnStartState();
         isNewTurn = true;
       }
+      Debug.Log(collision.tag);
     }
 
     private void OnDisable() {
