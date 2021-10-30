@@ -7,13 +7,12 @@ namespace Breakout {
     public delegate void OnMaxVelocityHandler();
     public static OnMaxVelocityHandler OnMaxVelocity;
     private Dictionary<string, Vector2> velocity = new Dictionary<string, Vector2>() {
-      { "Easy", new Vector2(1f, 1f) },
-      { "EasyWide", new Vector2(1.5f, 1f) },
-      { "Medium", new Vector2(1f, 2f) },
-      { "MediumWide", new Vector2(2f, 2f) },
-      { "Hard", new Vector2(2.25f, 2f) },
-      { "VeryHard", new Vector2(2.25f, 3f) },
-      { "MaxVelocity", new Vector2(2.25f, 3.25f) }
+      { "Easy", new Vector2(1.5f, 1.5f) },
+      { "EasyWide", new Vector2(2f, 1.5f) },
+      { "Medium", new Vector2(1.15f, 3f) },
+      { "MediumWide", new Vector2(3.75f, 1.5f) },
+      { "Hard", new Vector2(3.75f, 3.25f) },
+      { "MaxVelocity", new Vector2(4.15f, 4.15f) }
     };
     [SerializeField]
     private int paddleCollisionCount = 0;
@@ -153,19 +152,13 @@ namespace Breakout {
         }
         return velocity["EasyWide"];
       }
-      if (paddleCollisionCount == 4) {
+      if (paddleCollisionCount >= 4 && paddleCollisionCount <= 7) {
         return velocity["Medium"];
       }
-      if (paddleCollisionCount > 4 && paddleCollisionCount <= 7) {
-        if (paddleController.CurrentSegmentHit == PaddleSegmentHit.Center) {
-          return velocity["Medium"];
-        }
+      if (paddleCollisionCount >= 8 && paddleCollisionCount <= 11) {
         return velocity["MediumWide"];
       }
-      if (paddleCollisionCount > 7 && paddleCollisionCount <= 11) {
-        return velocity["Hard"];
-      }
-      return velocity["VeryHard"];
+      return velocity["Hard"];
     }
 
     private Vector2 GetMaxVelocity() {
