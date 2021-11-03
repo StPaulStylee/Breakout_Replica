@@ -26,4 +26,4 @@ This isn't a perfect replication and I don't intend it to be. Here are some thin
   * The size of the score text isn't large enough to match what it is in the original
   * The alebedo and layers of the background and game objects isn't exactly right
 
-The game can be demoed at my personal website, [jeffreymiller.dev](https://jeffreymiller.dev/portfolio/BreakoutCloneWebGl/index.html). If you find anything I missed above, drop it in the issues. I probably won't fix it but it would be could to know as this was a learning exercise.
+The game can be demoed at my personal website,  [jeffreymiller.dev](https://jeffreymiller.dev/portfolio/BreakoutCloneWebGl/index.html). If you find anything I missed above, drop it in the issues. I probably won't fix it but it would be could to know as this was a learning exercise.
