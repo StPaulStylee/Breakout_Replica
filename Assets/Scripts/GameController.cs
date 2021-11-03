@@ -34,7 +34,6 @@ namespace Breakout {
       OnEnablingCollision += EnableBrickIsTrigger;
       OnTurnEnd += UpdateTurnsRemaining;
       OnBrickCollision += GivePlayerPoints;
-      Cursor.visible = false;
       isBricksEnabled = true;
     }
 
@@ -54,8 +53,11 @@ namespace Breakout {
     private void Update() {
       if (isGameOver) {
         if(Input.GetKeyDown(KeyCode.Space)) {
+          if (Screen.fullScreen == false) {
+            Screen.fullScreen = true;
+            Cursor.visible = false;
+          }
           // Restart game
-          var scene = SceneManager.GetSceneByName("Game");
           SceneManager.LoadScene(1);
         }
       }

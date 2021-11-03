@@ -6,14 +6,17 @@ namespace Breakout {
     public delegate void OnGameOverHandler(bool value);
     public delegate void OnTurnEndHandler();
     public delegate void OnMaxVelocityHandler();
+    public delegate void OnBallCollisionHandler(bool value);
 
     public static OnGameOverHandler OnGameOver;
     public static OnTurnEndHandler OnTurnEnd;
     public static OnMaxVelocityHandler OnMaxVelocity;
+    public static OnBallCollisionHandler OnBallCollision;
 
     public PaddleSegmentHit CurrentSegmentHit { get; private set; }
     public PaddleSegmentHit PreviousSegmentHit { get; private set; }
     private Rigidbody2D rb;
+    private BoxCollider2D col;
     private Camera gameCamera;
     private Vector3 startingPosition;
     private float centerSegmentSize;
@@ -25,12 +28,14 @@ namespace Breakout {
 
     private void Awake() {
       rb = GetComponent<Rigidbody2D>();
+      col = GetComponent<BoxCollider2D>();
       CurrentSegmentHit = PaddleSegmentHit.Center;
       startingPosition = transform.position;
       SetCenterSegmentSize();
       OnGameOver += SetIsGameOver;
       OnTurnEnd += ResetState;
       OnMaxVelocity += SetScaleToHalf;
+      OnBallCollision += SetColliderState;
       if (isFrozen) {
         FreezePaddle();
         return;
@@ -67,6 +72,7 @@ namespace Breakout {
       OnGameOver -= SetIsGameOver;
       OnTurnEnd -= ResetState;
       OnMaxVelocity -= SetScaleToHalf;
+      OnBallCollision -= SetColliderState;
     }
 
     public void SetSegmentHit(float hitDistanceFromCenter) {
@@ -120,6 +126,10 @@ namespace Breakout {
         return;
       }
       ResetState();
+    }
+
+    private void SetColliderState(bool isEnabled) {
+      col.enabled = isEnabled;
     }
   }
   public enum PaddleSegmentHit {

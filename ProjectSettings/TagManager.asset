@@ -12,6 +12,7 @@ TagManager:
   - Paddle
   - Ball
   - LowerLimit
+  - EscapeLimit
   layers:
   - Default
   - TransparentFX

@@ -26,7 +26,7 @@ namespace Breakout {
       OnGameOver += SetStartingPosition;
       OnForceVelocityChange += SetCurrentVelocity;
       SetStartingPosition();
-      currentVelocity = velocityManager.GetStartingVelocity(transform.position.x);
+      currentVelocity = velocityManager.GetStartingVelocity();
     }
 
     private void Update() {
@@ -39,7 +39,7 @@ namespace Breakout {
       ballRigidBody.velocity = currentVelocity;
       if (isResetPosition) {
         SetStartingPosition();
-        currentVelocity = velocityManager.GetStartingVelocity(transform.position.x);
+        currentVelocity = velocityManager.GetStartingVelocity();
         isResetPosition = false;
         isNewTurn = false;
       }
@@ -50,10 +50,12 @@ namespace Breakout {
         GameController.OnEnablingCollision();
         velocityManager.SetDataFromPaddleCollision(collision);
         currentVelocity = velocityManager.GetVelocity(ColliderTag.Paddle);
+        PaddleController.OnBallCollision(false);
       }
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
+      PaddleController.OnBallCollision(true);
       if (collision.CompareTag("UpperLimit")) {
         GameController.OnEnablingCollision();
         PaddleController.OnMaxVelocity();
@@ -76,7 +78,7 @@ namespace Breakout {
     }
 
     private void OnTriggerExit2D(Collider2D collision) {
-      if (collision.CompareTag("LowerLimit")) {
+      if (collision.CompareTag("LowerLimit") || collision.CompareTag("EscapeLimit")) {
         GameController.OnTurnEnd();
         PaddleController.OnTurnEnd();
         velocityManager.RestoreToTurnStartState();

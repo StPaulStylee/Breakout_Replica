@@ -36,10 +36,11 @@ namespace Breakout {
       OnMaxVelocity -= SetMaxVelocity;
     }
 
-    public Vector2 GetStartingVelocity(float startingPositionOnX) {
+    public Vector2 GetStartingVelocity() {
+      var xDirectionDeterinate = Random.Range(-1f, 1f);
       var startingVelocity = velocity["Easy"];
       startingVelocity.y = -startingVelocity.y;
-      if (startingPositionOnX >= 0) {
+      if (xDirectionDeterinate <= 0) {
         startingVelocity.x = -startingVelocity.x;
       }
       currentVelocity = startingVelocity;
