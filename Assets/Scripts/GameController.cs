@@ -52,7 +52,7 @@ namespace Breakout {
 
     private void Update() {
       if (isGameOver) {
-        if(Input.GetKeyDown(KeyCode.Space)) {
+        if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0)) {
           if (Screen.fullScreen == false) {
             Screen.fullScreen = true;
             Cursor.visible = false;

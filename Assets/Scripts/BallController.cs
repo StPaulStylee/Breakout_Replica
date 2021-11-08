@@ -30,7 +30,7 @@ namespace Breakout {
     }
 
     private void Update() {
-      if (Input.GetKeyDown(KeyCode.Space) && isNewTurn) {
+      if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0)) && isNewTurn) {
         isResetPosition = true;
       }
     }
