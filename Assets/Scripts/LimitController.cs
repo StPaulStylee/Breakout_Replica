@@ -5,8 +5,7 @@ namespace Breakout {
     public delegate void OnGameOverHandler(bool value);
     public static OnGameOverHandler OnGameOver;
     private bool isGameOver;
-    [SerializeField]
-    private AudioSource collisionSfx;
+    [SerializeField] private AudioSource collisionSfx;
 
     private void Awake() {
       OnGameOver += SetIsGameOver;

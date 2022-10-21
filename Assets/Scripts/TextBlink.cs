@@ -8,8 +8,7 @@ namespace Breakout {
     public delegate void OnBlinkHandler(bool enableBlink);
     public static OnBlinkHandler OnBlink;
     Text text;
-    [SerializeField]
-    private float blinkRate;
+    [SerializeField] private float blinkRate;
 
     private void Awake() {
       OnBlink += EnableBlinking;

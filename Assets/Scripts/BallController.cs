@@ -12,10 +12,8 @@ namespace Breakout {
     private Rigidbody2D ballRigidBody;
     private BallVelocityManager velocityManager;
     private bool isNewTurn = false;
-    [SerializeField]
-    private Vector2 currentVelocity;
-    [SerializeField]
-    private bool isResetPosition;
+    [SerializeField] private Vector2 currentVelocity;
+    [SerializeField] private bool isResetPosition;
 
     private void Awake() {
       velocityManager = GetComponent<BallVelocityManager>();

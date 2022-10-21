@@ -13,21 +13,15 @@ namespace Breakout {
     public static OnBrickEventHandler OnBrickCollision;
 
 
-    [field: SerializeField]
-    public int PlayerCurrentTurn { get; private set; } = 1;
+    [field: SerializeField] public int PlayerCurrentTurn { get; private set; } = 1;
     public int PlayerPoints { get; private set; } = 0;
 
     private bool isBricksEnabled = false;
-    [SerializeField]
-    private int PlayerTurnsAllowed = 3;
-    [SerializeField]
-    private GameObject[] bricks;
-    [SerializeField]
-    private Text player1TurnsText;
-    [SerializeField]
-    private Text player1ScoreText;
-    [SerializeField]
-    private bool isGameOver = false;
+    [SerializeField] private int PlayerTurnsAllowed = 3;
+    [SerializeField] private GameObject[] bricks;
+    [SerializeField] private Text player1TurnsText;
+    [SerializeField] private Text player1ScoreText;
+    [SerializeField] private bool isGameOver = false;
 
     private void Awake() {
       OnDisablingCollision += DisableBrickIsTrigger;
@@ -52,7 +46,7 @@ namespace Breakout {
 
     private void Update() {
       if (isGameOver) {
-        if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0)) {
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0)) {
           if (Screen.fullScreen == false) {
             Screen.fullScreen = true;
             Cursor.visible = false;

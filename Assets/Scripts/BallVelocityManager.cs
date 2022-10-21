@@ -14,10 +14,8 @@ namespace Breakout {
       { "Hard", new Vector2(3.75f, 3.25f) },
       { "MaxVelocity", new Vector2(4.15f, 4.15f) }
     };
-    [SerializeField]
-    private int paddleCollisionCount = 0;
-    [SerializeField]
-    Vector2 velocityVarianceOnMax;
+    [SerializeField] private int paddleCollisionCount = 0;
+    [SerializeField] Vector2 velocityVarianceOnMax;
     private PaddleController paddleController;
     private BallDirection currentBallDirection;
     private Vector2 currentVelocity;

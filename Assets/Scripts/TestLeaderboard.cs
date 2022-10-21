@@ -18,8 +18,12 @@ namespace Breakout.Web {
       }
 
       if (Input.GetKeyDown(KeyCode.P)) {
+        LeaderboardEntry entry = new LeaderboardEntry {
+          Name = "Fitz",
+          Score = 0
+        };
         WebRequests.PostJson("https://breakoutleaderboard-jeffreymillerdotdev.azurewebsites.net/api/AddScore?code=5k0ne2Vsp0H_qpfPmPsR5BHZ8mvsTJ-dboOzdqFeMAO7AzFuFUHR5A==",
-        "{}",
+        JsonConvert.SerializeObject(entry),
         (string error) => {
           Debug.LogError(error);
         },

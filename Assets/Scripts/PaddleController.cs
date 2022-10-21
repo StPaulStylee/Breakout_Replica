@@ -21,10 +21,8 @@ namespace Breakout {
     private Vector3 startingPosition;
     private float centerSegmentSize;
     private bool isBallMaxVelocityScale;
-    [SerializeField]
-    private bool isFrozen = false;
-    [SerializeField]
-    private AudioSource collisionSfx;
+    [SerializeField] private bool isFrozen = false;
+    [SerializeField] private AudioSource collisionSfx;
 
     private void Awake() {
       rb = GetComponent<Rigidbody2D>();

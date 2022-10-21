@@ -4,8 +4,7 @@ namespace Breakout {
   public class BrickController : MonoBehaviour {
     public delegate void OnGameOverHandler(bool value);
     public static OnGameOverHandler OnGameOver;
-    [SerializeField]
-    private int Points;
+    [SerializeField] private int Points;
     private AudioSource collisionSfx;
     private bool isGameOver;
     private bool isMaxVelocityInitiator;
