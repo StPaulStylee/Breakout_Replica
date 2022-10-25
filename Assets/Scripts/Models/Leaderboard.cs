@@ -7,5 +7,6 @@ namespace Breakout {
   public class LeaderboardEntry {
     public string Name;
     public int Score;
+    public bool HasError = false;
   }
 }
