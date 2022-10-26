@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-namespace Breakout {
+namespace Breakout.HighScore {
   public class Leaderboard {
     public List<LeaderboardEntry> LeaderboardEntryList;
   }

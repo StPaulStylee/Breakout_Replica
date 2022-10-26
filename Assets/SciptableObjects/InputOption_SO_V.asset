@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18333c8f583a24c4bbc379656e52407a, type: 3}
+  m_Name: InputOption_SO_V
+  m_EditorClassIdentifier: 
+  InputOptionPrefab: {fileID: 6159875493505378137, guid: 2864e84cd99202841ba5935e26a38aaa,
+    type: 3}
+  InputCharacter: 86
+  InputCharacterOverride: 
+  FontSize: 244
