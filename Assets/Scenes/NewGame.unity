@@ -4256,7 +4256,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &509945686
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7523,7 +7523,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'JSM '
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 90eb088f59950464190c7faada1b1412, type: 2}
   m_sharedMaterial: {fileID: 3849424952875173633, guid: 90eb088f59950464190c7faada1b1412,
@@ -8177,7 +8177,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1027364669
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8242,6 +8242,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 90e7c2847937ca244a53030d0f3fd4a6, type: 2}
   - {fileID: 11400000, guid: 286e6d4b3b7e1444b94f595c4be5e61d, type: 2}
   inputOptionContainer: {fileID: 2070244527}
+  inputText: {fileID: 0}
 --- !u!1001 &1029380354
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10420,7 +10421,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1212069609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10602,7 +10603,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1323897790
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16815,6 +16816,7 @@ MonoBehaviour:
   player1TurnsText: {fileID: 1437593585}
   player1ScoreText: {fileID: 1599381219}
   isGameOver: 1
+  isHighScoreCanvasVisible: 1
 --- !u!1001 &1879840473
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -22,6 +22,7 @@ namespace Breakout {
     [SerializeField] private Text player1TurnsText;
     [SerializeField] private Text player1ScoreText;
     [SerializeField] private bool isGameOver = false;
+    [SerializeField] private bool isHighScoreCanvasVisible = false;
 
     private void Awake() {
       OnDisablingCollision += DisableBrickIsTrigger;
@@ -45,6 +46,9 @@ namespace Breakout {
     }
 
     private void Update() {
+      if (isHighScoreCanvasVisible) {
+        return;
+      }
       if (isGameOver) {
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0)) {
           if (Screen.fullScreen == false) {

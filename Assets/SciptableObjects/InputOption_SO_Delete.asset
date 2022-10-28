@@ -16,4 +16,5 @@ MonoBehaviour:
     type: 3}
   InputCharacter: 90
   InputCharacterOverride: <-
-  FontSize: 61.5
+  FontSize: 85
+  OptionType: 1
