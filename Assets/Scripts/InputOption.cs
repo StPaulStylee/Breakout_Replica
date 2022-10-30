@@ -29,7 +29,6 @@ namespace Breakout.HighScore {
     public void OnClickHandler() {
       if (OptionType == InputOptionType.Add) {
         string input = InputCharacterOverride != String.Empty ? InputCharacterOverride : InputCharacter.ToString();
-        Debug.Log(input);
         HighScoreInputManager.OnUserAddInput(input);
         return;
       }
@@ -37,7 +36,6 @@ namespace Breakout.HighScore {
         HighScoreInputManager.OnUserRemoveInput();
       }
       if (OptionType == InputOptionType.Submit) {
-        // Do stuff
         HighScoreInputManager.OnUserSubmitInput();
       }
     }

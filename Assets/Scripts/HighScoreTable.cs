@@ -12,7 +12,6 @@ namespace Breakout.HighScore {
     private Transform tableRowTemplate;
     private void Awake() {
       gameObject.SetActive(false);
-      LoadHighScoreData();
     }
 
     private Transform CreateDataRow(int currentRowIndex) {
@@ -24,30 +23,48 @@ namespace Breakout.HighScore {
       return rowTransform;
     }
 
-    private void LoadHighScoreData() {
-      WebRequests.Get("https://breakoutleaderboard-jeffreymillerdotdev.azurewebsites.net/api/GetLeaderboard?code=8OXrLAXIlCwkTpfOlEC-B_9o-Kq9ts4gV7aY-R0ZIWtAAzFuKIffiA==",
-        (string error) => {
-          gameObject.SetActive(false);
-          Debug.LogError("Cannot load the High Score Table: " + error);
-        },
-        (string response) => {
-          Leaderboard leaderboard = JsonConvert.DeserializeObject<Leaderboard>(response);
-          dataContainer = transform.Find("DataContainer");
-          tableRowTemplate = dataContainer.Find("TableRowTemplate");
-          if (dataContainer == null || tableRowTemplate == null) {
-            Debug.LogWarning("The elements required to generate the highscore table are not present");
-            return;
-          }
-          tableRowTemplate.gameObject.SetActive(false);
-          for (int i = 0; i < leaderboard.LeaderboardEntryList.Count; i++) {
-            Transform createdRow = CreateDataRow(i);
-            SetRankText(i, createdRow);
-            SetScoreText(createdRow, leaderboard.LeaderboardEntryList[i].Score);
-            SetNameText(createdRow, leaderboard.LeaderboardEntryList[i].Name);
-          }
-          gameObject.SetActive(true);
-        });
+    public void LoadHighScoreData(Leaderboard leaderboardData) {
+      Leaderboard leaderboard = leaderboardData;
+      dataContainer = transform.Find("DataContainer");
+      tableRowTemplate = dataContainer.Find("TableRowTemplate");
+      if (dataContainer == null || tableRowTemplate == null) {
+        Debug.LogWarning("The elements required to generate the highscore table are not present");
+        return;
+      }
+      tableRowTemplate.gameObject.SetActive(false);
+      for (int i = 0; i < leaderboard.LeaderboardEntryList.Count; i++) {
+        Transform createdRow = CreateDataRow(i);
+        SetRankText(i, createdRow);
+        SetScoreText(createdRow, leaderboard.LeaderboardEntryList[i].Score);
+        SetNameText(createdRow, leaderboard.LeaderboardEntryList[i].Name);
+      }
+      gameObject.SetActive(true);
     }
+
+    // private void LoadHighScoreData() {
+    //   WebRequests.Get("https://breakoutleaderboard-jeffreymillerdotdev.azurewebsites.net/api/GetLeaderboard?code=8OXrLAXIlCwkTpfOlEC-B_9o-Kq9ts4gV7aY-R0ZIWtAAzFuKIffiA==",
+    //     (string error) => {
+    //       gameObject.SetActive(false);
+    //       Debug.LogError("Cannot load the High Score Table: " + error);
+    //     },
+    //     (string response) => {
+    //       Leaderboard leaderboard = JsonConvert.DeserializeObject<Leaderboard>(response);
+    //       dataContainer = transform.Find("DataContainer");
+    //       tableRowTemplate = dataContainer.Find("TableRowTemplate");
+    //       if (dataContainer == null || tableRowTemplate == null) {
+    //         Debug.LogWarning("The elements required to generate the highscore table are not present");
+    //         return;
+    //       }
+    //       tableRowTemplate.gameObject.SetActive(false);
+    //       for (int i = 0; i < leaderboard.LeaderboardEntryList.Count; i++) {
+    //         Transform createdRow = CreateDataRow(i);
+    //         SetRankText(i, createdRow);
+    //         SetScoreText(createdRow, leaderboard.LeaderboardEntryList[i].Score);
+    //         SetNameText(createdRow, leaderboard.LeaderboardEntryList[i].Name);
+    //       }
+    //       gameObject.SetActive(true);
+    //     });
+    // }
 
     private void SetRankText(int rankIndex, Transform rowTransform) {
       // Set Position Text

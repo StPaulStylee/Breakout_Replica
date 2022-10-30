@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Breakout.HighScore;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -107,6 +108,7 @@ namespace Breakout {
         BrickController.OnGameOver(isGameOver);
         LimitController.OnGameOver(isGameOver);
         TextBlink.OnBlink(false);
+        HighScoreManager.OnHighScoreRoutine(PlayerPoints);
         return;
       }
     }
