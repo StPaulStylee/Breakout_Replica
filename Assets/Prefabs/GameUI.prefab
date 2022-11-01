@@ -1692,6 +1692,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3fce51e8cad2a44d80646046b466f31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highScoreManager: {fileID: 2050985773802293047}
   inputOptionsData:
   - {fileID: 11400000, guid: 62ae6e1d26a4fd14cb2d3523f4a65cb6, type: 2}
   - {fileID: 11400000, guid: 2c5809329cb7c9f4d928ca0e6986147b, type: 2}

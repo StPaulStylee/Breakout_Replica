@@ -103,6 +103,7 @@ namespace Breakout {
       player1TurnsText.text = PlayerCurrentTurn.ToString();
       if (PlayerCurrentTurn > PlayerTurnsAllowed) {
         isGameOver = true;
+        isHighScoreCanvasVisible = true;
         PaddleController.OnGameOver(isGameOver);
         BallController.OnGameOver();
         BrickController.OnGameOver(isGameOver);

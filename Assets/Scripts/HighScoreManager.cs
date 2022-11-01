@@ -22,6 +22,10 @@ namespace Breakout.HighScore {
       OnHighScoreRoutine -= GetHighScoreData;
     }
 
+    public void LoadLeaderboardGUI(Leaderboard leaderboard) {
+      highScoreTable.LoadHighScoreData(leaderboard);
+    }
+
     private void GetHighScoreData(int playerScore) {
       WebRequests.Get("https://breakoutleaderboard-jeffreymillerdotdev.azurewebsites.net/api/GetLeaderboard?code=8OXrLAXIlCwkTpfOlEC-B_9o-Kq9ts4gV7aY-R0ZIWtAAzFuKIffiA==",
         (string error) => {
@@ -32,15 +36,19 @@ namespace Breakout.HighScore {
         (string response) => {
           leaderboard = JsonConvert.DeserializeObject<Leaderboard>(response);
           // Check players score to see if they achieved a highscore
-          bool isHighScore = leaderboard.LeaderboardEntryList.TrueForAll((entry) => !(entry.Score > playerScore));
+          bool isHighScore = !leaderboard.LeaderboardEntryList.TrueForAll((entry) => entry.Score >= playerScore);
           if (isHighScore) {
             print("High Score Achieved!");
-            highScoreInputManager.gameObject.SetActive(true);
+            // once captured, set entry to IsNewEntry, add highscore to leaderboard data and sort
+            // Need to track the score in HighScoreInputManager
+            // Need to make sure that once the data is loaded that all entries "IsNewEntry" property 
+            // is set to false
+            highScoreInputManager.PlayerScore = playerScore;
+            highScoreInputManager.SubmitHighScore();
             return;
           }
           print("No high score!");
-          highScoreTable.LoadHighScoreData(leaderboard);
-          // once captured, set entry to IsNewEntry, add highscore to leaderboard data and sort
+          LoadLeaderboardGUI(leaderboard);
         });
     }
   }
