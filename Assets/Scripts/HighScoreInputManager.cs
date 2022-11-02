@@ -28,6 +28,10 @@ namespace Breakout.HighScore {
       OnUserRemoveInput += RemoveInputCharacter;
       OnUserSubmitInput += SubmitHighScore;
 
+      CreateInputOptions();
+    }
+
+    private void CreateInputOptions() {
       foreach (InputOptionSO option in inputOptionsData) {
         GameObject inputOptionGO = Instantiate(option.InputOptionPrefab);
         inputOptionGO.transform.SetParent(inputOptionContainer);
@@ -44,7 +48,7 @@ namespace Breakout.HighScore {
     private void OnDisable() {
       OnUserAddInput -= SetInputText;
       OnUserRemoveInput -= RemoveInputCharacter;
-      OnUserSubmitInput -= SubmitInput;
+      OnUserSubmitInput -= SubmitHighScore;
     }
 
     private void ExtractDependencies() {
@@ -67,9 +71,15 @@ namespace Breakout.HighScore {
     // post request to set up the new data and then how the highscore board
     // gets presented.
     public void SubmitHighScore() {
-      gameObject.SetActive(true);
-      SubmitInput();
-      highScoreManager.LoadLeaderboardGUI(leaderboard);
+      // Do I need to clear any instance data after submission?
+      LeaderboardEntry entry = new LeaderboardEntry {
+        Name = inputText.text,
+        Score = PlayerScore,
+        IsNewEntry = true
+      };
+      SubmitInput(entry);
+      highScoreManager.LoadLeaderboardGUI(entry);
+      gameObject.SetActive(false);
     }
 
     private void SetInputText(string text) {
@@ -87,16 +97,11 @@ namespace Breakout.HighScore {
       inputText.text = inputText.text.Remove(inputText.text.Length - 1);
     }
 
-    private void SubmitInput() {
-      // Do I need to clear any instance data after submission?
-      LeaderboardEntry entry = new LeaderboardEntry {
-        Name = inputText.text,
-        Score = PlayerScore,
-        IsNewEntry = true
-      };
+    private void SubmitInput(LeaderboardEntry entry) {
       WebRequests.PostJson("https://breakoutleaderboard-jeffreymillerdotdev.azurewebsites.net/api/AddScore?code=5k0ne2Vsp0H_qpfPmPsR5BHZ8mvsTJ-dboOzdqFeMAO7AzFuFUHR5A==",
         JsonConvert.SerializeObject(entry),
           (string error) => {
+            // Determine the workflow here if an error does occur
             leaderboard = new Leaderboard { HasError = true };
             Debug.LogError(error);
           },

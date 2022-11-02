@@ -7,11 +7,13 @@ namespace Breakout {
   public class GameController : MonoBehaviour {
     public delegate void OnBallEventHandler();
     public delegate void OnBrickEventHandler(int points);
+    public delegate void OnHighScoreHandler(bool isVisible);
 
     public static OnBallEventHandler OnDisablingCollision;
     public static OnBallEventHandler OnEnablingCollision;
     public static OnBallEventHandler OnTurnEnd;
     public static OnBrickEventHandler OnBrickCollision;
+    public static OnHighScoreHandler OnSetHighScoreTable;
 
 
     [field: SerializeField] public int PlayerCurrentTurn { get; private set; } = 1;
@@ -30,6 +32,7 @@ namespace Breakout {
       OnEnablingCollision += EnableBrickIsTrigger;
       OnTurnEnd += UpdateTurnsRemaining;
       OnBrickCollision += GivePlayerPoints;
+      OnSetHighScoreTable += SetHighScoreCanvaseVisibility;
       isBricksEnabled = true;
     }
 
@@ -48,6 +51,7 @@ namespace Breakout {
 
     private void Update() {
       if (isHighScoreCanvasVisible) {
+        Cursor.visible = true;
         return;
       }
       if (isGameOver) {
@@ -67,6 +71,11 @@ namespace Breakout {
       OnEnablingCollision -= EnableBrickIsTrigger;
       OnTurnEnd -= UpdateTurnsRemaining;
       OnBrickCollision -= GivePlayerPoints;
+      OnSetHighScoreTable -= SetHighScoreCanvaseVisibility;
+    }
+
+    private void SetHighScoreCanvaseVisibility(bool isVisible) {
+      isHighScoreCanvasVisible = isVisible;
     }
 
     private void GivePlayerPoints(int points) {
@@ -103,7 +112,7 @@ namespace Breakout {
       player1TurnsText.text = PlayerCurrentTurn.ToString();
       if (PlayerCurrentTurn > PlayerTurnsAllowed) {
         isGameOver = true;
-        isHighScoreCanvasVisible = true;
+        GameController.OnSetHighScoreTable(true);
         PaddleController.OnGameOver(isGameOver);
         BallController.OnGameOver();
         BrickController.OnGameOver(isGameOver);

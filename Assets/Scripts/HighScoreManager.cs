@@ -22,7 +22,17 @@ namespace Breakout.HighScore {
       OnHighScoreRoutine -= GetHighScoreData;
     }
 
-    public void LoadLeaderboardGUI(Leaderboard leaderboard) {
+    public void LoadLeaderboardGUI() {
+      SortLeaderboardDescending();
+      // There is no need to ensure "IsNewEntry" is false when a new leaderboard
+      // is rendered because the backend doesn't have a "IsNewEntry" field and therefor
+      // is simply ignored when added to the DB
+      highScoreTable.LoadHighScoreData(leaderboard);
+    }
+
+    public void LoadLeaderboardGUI(LeaderboardEntry entry) {
+      leaderboard.LeaderboardEntryList.Add(entry);
+      SortLeaderboardDescending();
       highScoreTable.LoadHighScoreData(leaderboard);
     }
 
@@ -35,21 +45,29 @@ namespace Breakout.HighScore {
         },
         (string response) => {
           leaderboard = JsonConvert.DeserializeObject<Leaderboard>(response);
-          // Check players score to see if they achieved a highscore
-          bool isHighScore = !leaderboard.LeaderboardEntryList.TrueForAll((entry) => entry.Score >= playerScore);
-          if (isHighScore) {
-            print("High Score Achieved!");
-            // once captured, set entry to IsNewEntry, add highscore to leaderboard data and sort
-            // Need to track the score in HighScoreInputManager
-            // Need to make sure that once the data is loaded that all entries "IsNewEntry" property 
-            // is set to false
-            highScoreInputManager.PlayerScore = playerScore;
-            highScoreInputManager.SubmitHighScore();
-            return;
-          }
-          print("No high score!");
-          LoadLeaderboardGUI(leaderboard);
+          HighScoreInputRoutine(playerScore);
         });
+    }
+
+    private void HighScoreInputRoutine(int playerScore) {
+      bool isHighScore = GetIsHighScore(playerScore);
+      if (isHighScore) {
+        highScoreInputManager.PlayerScore = playerScore;
+        highScoreInputManager.gameObject.SetActive(true);
+        return;
+      }
+      LoadLeaderboardGUI();
+    }
+
+    private bool GetIsHighScore(int playerScore) {
+      if (leaderboard.LeaderboardEntryList.Count <= 10) {
+        return true;
+      }
+      return !leaderboard.LeaderboardEntryList.TrueForAll((entry) => entry.Score >= playerScore);
+    }
+
+    private void SortLeaderboardDescending() {
+      leaderboard.LeaderboardEntryList.Sort((x, y) => y.Score.CompareTo(x.Score));
     }
   }
 }
