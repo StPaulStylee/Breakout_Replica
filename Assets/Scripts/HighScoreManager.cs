@@ -14,20 +14,14 @@ namespace Breakout.HighScore {
     private Leaderboard leaderboard = null;
 
     private void Awake() {
+      Debug.Log("HighScoreManager awake");
+      GetHighScoreData();
       // Set the dependencies and check if null
-      OnHighScoreRoutine += GetHighScoreData;
+      OnHighScoreRoutine += HighScoreInputRoutine;
     }
 
     private void OnDisable() {
-      OnHighScoreRoutine -= GetHighScoreData;
-    }
-
-    public void LoadLeaderboardGUI() {
-      SortLeaderboardDescending();
-      // There is no need to ensure "IsNewEntry" is false when a new leaderboard
-      // is rendered because the backend doesn't have a "IsNewEntry" field and therefor
-      // is simply ignored when added to the DB
-      highScoreTable.LoadHighScoreData(leaderboard);
+      OnHighScoreRoutine -= HighScoreInputRoutine;
     }
 
     public void LoadLeaderboardGUI(LeaderboardEntry entry) {
@@ -36,7 +30,15 @@ namespace Breakout.HighScore {
       highScoreTable.LoadHighScoreData(leaderboard);
     }
 
-    private void GetHighScoreData(int playerScore) {
+    private void LoadLeaderboardGUI() {
+      SortLeaderboardDescending();
+      // There is no need to ensure "IsNewEntry" is false when a new leaderboard
+      // is rendered because the backend doesn't have a "IsNewEntry" field and therefor
+      // is simply ignored when added to the DB
+      highScoreTable.LoadHighScoreData(leaderboard);
+    }
+
+    private void GetHighScoreData() {
       WebRequests.Get("https://breakoutleaderboard-jeffreymillerdotdev.azurewebsites.net/api/GetLeaderboard?code=8OXrLAXIlCwkTpfOlEC-B_9o-Kq9ts4gV7aY-R0ZIWtAAzFuKIffiA==",
         (string error) => {
           leaderboard = new Leaderboard { HasError = true };
@@ -45,7 +47,6 @@ namespace Breakout.HighScore {
         },
         (string response) => {
           leaderboard = JsonConvert.DeserializeObject<Leaderboard>(response);
-          HighScoreInputRoutine(playerScore);
         });
     }
 
