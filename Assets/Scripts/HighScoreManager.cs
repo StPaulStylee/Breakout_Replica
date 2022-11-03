@@ -14,7 +14,6 @@ namespace Breakout.HighScore {
     private Leaderboard leaderboard = null;
 
     private void Awake() {
-      Debug.Log("HighScoreManager awake");
       GetHighScoreData();
       // Set the dependencies and check if null
       OnHighScoreRoutine += HighScoreInputRoutine;
@@ -27,6 +26,7 @@ namespace Breakout.HighScore {
     public void LoadLeaderboardGUI(LeaderboardEntry entry) {
       leaderboard.LeaderboardEntryList.Add(entry);
       SortLeaderboardDescending();
+      RemoveEntriesThatAreNotTopTen();
       highScoreTable.LoadHighScoreData(leaderboard);
     }
 
@@ -61,7 +61,7 @@ namespace Breakout.HighScore {
     }
 
     private bool GetIsHighScore(int playerScore) {
-      if (leaderboard.LeaderboardEntryList.Count <= 10) {
+      if (leaderboard.LeaderboardEntryList.Count < 10) {
         return true;
       }
       return !leaderboard.LeaderboardEntryList.TrueForAll((entry) => entry.Score >= playerScore);
@@ -69,6 +69,15 @@ namespace Breakout.HighScore {
 
     private void SortLeaderboardDescending() {
       leaderboard.LeaderboardEntryList.Sort((x, y) => y.Score.CompareTo(x.Score));
+    }
+
+    private Leaderboard RemoveEntriesThatAreNotTopTen() {
+      if (leaderboard.LeaderboardEntryList.Count > 10) {
+        SortLeaderboardDescending();
+        leaderboard.LeaderboardEntryList.RemoveAt(leaderboard.LeaderboardEntryList.Count - 1);
+        RemoveEntriesThatAreNotTopTen();
+      }
+      return leaderboard;
     }
   }
 }

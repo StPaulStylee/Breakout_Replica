@@ -13,9 +13,6 @@ namespace Breakout.HighScore {
     int visibleFor = 5;
     private Transform dataContainer;
     private Transform tableRowTemplate;
-    private void Awake() {
-      gameObject.SetActive(false);
-    }
 
     private void Deactivate() {
       gameObject.SetActive(false);
@@ -23,10 +20,10 @@ namespace Breakout.HighScore {
     }
 
     private Transform CreateDataRow(int currentRowIndex) {
-      float rowTemplateHeight = 50f;
+      // float rowTemplateHeight = 50f;
       Transform rowTransform = Instantiate(tableRowTemplate, dataContainer);
       RectTransform rowRectTransform = rowTransform.GetComponent<RectTransform>();
-      rowRectTransform.anchoredPosition = new Vector2(0, -rowTemplateHeight * currentRowIndex);
+      // rowRectTransform.anchoredPosition = new Vector2(0, -rowTemplateHeight * currentRowIndex);
       rowTransform.gameObject.SetActive(true);
       return rowTransform;
     }

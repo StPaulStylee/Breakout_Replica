@@ -15,7 +15,6 @@ namespace Breakout.HighScore {
       },
       (string response) => {
         leaderboard = JsonConvert.DeserializeObject<Leaderboard>(response);
-        Debug.Log(leaderboard.LeaderboardEntryList[0].Name);
       });
       return leaderboard;
     }

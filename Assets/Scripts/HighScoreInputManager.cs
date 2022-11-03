@@ -63,13 +63,6 @@ namespace Breakout.HighScore {
       }
     }
 
-    // I've made a mess of this. Right now the HighScoreManager is trying to
-    // call a routine that opens the input manager, submits the score, and then
-    // shows the leaderboard with all of the data (including the newest entry)
-    // however, onclick submit does the exact some routine and I don't think that is 
-    // going to work. I need to rethink how the HighScoreManager will call the
-    // post request to set up the new data and then how the highscore board
-    // gets presented.
     public void SubmitHighScore() {
       // Do I need to clear any instance data after submission?
       LeaderboardEntry entry = new LeaderboardEntry {
@@ -107,7 +100,6 @@ namespace Breakout.HighScore {
           },
           (string response) => {
             leaderboard = JsonConvert.DeserializeObject<Leaderboard>(response);
-            Debug.Log(response);
           });
     }
   }
