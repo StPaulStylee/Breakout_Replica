@@ -58,7 +58,9 @@ namespace Breakout {
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0)) {
           if (Screen.fullScreen == false) {
             Screen.fullScreen = true;
-            Cursor.visible = false;
+          }
+          if (Cursor.visible == false) {
+            Cursor.visible = true;
           }
           // Restart game
           SceneManager.LoadScene(1);
