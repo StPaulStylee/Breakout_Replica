@@ -59,8 +59,8 @@ namespace Breakout {
           if (Screen.fullScreen == false) {
             Screen.fullScreen = true;
           }
-          if (Cursor.visible == false) {
-            Cursor.visible = true;
+          if (Cursor.visible == true) {
+            Cursor.visible = false;
           }
           // Restart game
           SceneManager.LoadScene(1);
